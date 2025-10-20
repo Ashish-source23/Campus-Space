@@ -3,6 +3,7 @@ package com.example.campusspace // Match your package name from the error
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.campusspace.databinding.ActivityMainBinding // Correct import
+import com.example.campusspace.ui.CampusMapFragment
 import com.example.campusspace.ui.PlacesListFragment
 import com.example.campusspace.ui.MockData
 import com.example.campusspace.ui.ViewPagerAdapter
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(this)
         adapter.addFragment(PlacesListFragment(), "Study Locations")
+        adapter.addFragment(CampusMapFragment(), "Campus Map")
         // You can add the CampusMapFragment here later
         // adapter.addFragment(CampusMapFragment(), "Campus Map")
 
