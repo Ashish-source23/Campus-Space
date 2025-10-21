@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.campusspace.MainActivity // Import MainActivity
+import com.example.campusspace.data.Place // Import Place
 import com.example.campusspace.databinding.FragmentPlacesListBinding
 
 class PlacesListFragment : Fragment() {
@@ -30,11 +32,23 @@ class PlacesListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        placesAdapter = PlacesListAdapter(MockData.getPlaces())
+        // Pass the click handler to the adapter
+        placesAdapter = PlacesListAdapter(MockData.getPlaces()) { place ->
+            onPlaceCardSelected(place)
+        }
         binding.rvPlaces.apply {
             adapter = placesAdapter
             layoutManager = LinearLayoutManager(context)
         }
+    }
+
+    // This function is called when "View on Map" is clicked
+    private fun onPlaceCardSelected(place: Place) {
+        // Tell the MainActivity to switch tabs
+        (activity as? MainActivity)?.switchToMapTab()
+
+        // In a more advanced app, you'd pass the place.id to the map
+        // using a Shared ViewModel so the map can highlight it.
     }
 
     private fun setupSearch() {

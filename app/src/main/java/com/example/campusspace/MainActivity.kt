@@ -47,4 +47,9 @@ class MainActivity : AppCompatActivity() {
             tab.text = adapter.getPageTitle(position)
         }.attach()
     }
+
+    fun switchToMapTab() {
+        // 1 is the index of your map tab (0 is Study Locations)
+        binding.viewPager.currentItem = 1
+    }
 }

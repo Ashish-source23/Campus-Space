@@ -5,82 +5,142 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true"> <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/tv_place_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="📚" />
+
+    <TextView
+        android:id="@+id/tv_place_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:layout_constraintEnd_toStartOf="@+id/chip_crowd_level"
+        app:layout_constraintStart_toEndOf="@id/tv_place_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Central Library" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_crowd_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_expand"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Low" />
+
+    <ImageButton
+        android:id="@+id/btn_expand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_chevron_down"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_place_name"
+        android:contentDescription="Expand details" />
+
+
+    <TextView
+        android:id="@+id/tv_place_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:drawableStart="@drawable/ic_map_pin"
+        android:drawablePadding="4dp"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        app:layout_constraintStart_toStartOf="@id/tv_place_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_place_name"
+        tools:text="Building A, Floor 2" />
+
+    <ProgressBar
+        android:id="@+id/progress_occupancy"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="8dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toStartOf="@id/tv_occupancy_ratio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_place_location"
+        tools:progress="22"/>
+
+    <TextView
+        android:id="@+id/tv_occupancy_ratio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/progress_occupancy"
+        app:layout_constraintBottom_toBottomOf="@id/progress_occupancy"
+        tools:text="45/200" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_amenities"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_occupancy"/>
+
+    <LinearLayout
+        android:id="@+id/expanded_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/chip_group_amenities"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/dividerVertical"
+            android:layout_marginBottom="12dp"/>
 
         <TextView
-            android:id="@+id/tv_place_icon"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_available_spots_detail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="📚" />
-
-        <TextView
-            android:id="@+id/tv_place_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
-            app:layout_constraintEnd_toStartOf="@+id/chip_crowd_level"
-            app:layout_constraintStart_toEndOf="@id/tv_place_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Central Library" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_crowd_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Low" />
-
-        <TextView
-            android:id="@+id/tv_place_location"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:drawableStart="@drawable/ic_map_pin"
-            android:drawablePadding="4dp"
-            android:textAppearance="?attr/textAppearanceBodySmall"
-            app:layout_constraintStart_toStartOf="@id/tv_place_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_place_name"
-            tools:text="Building A, Floor 2" />
-
-        <ProgressBar
-            android:id="@+id/progress_occupancy"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintEnd_toStartOf="@id/tv_occupancy_ratio"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_place_location"
-            tools:progress="22" />
-
-        <TextView
-            android:id="@+id/tv_occupancy_ratio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:textAppearance="?attr/textAppearanceBodyMedium"
-            app:layout_constraintBottom_toBottomOf="@id/progress_occupancy"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/progress_occupancy"
-            tools:text="45/200" />
+            android:drawableStart="@drawable/ic_users"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            tools:text="Available Spots: 155 (45 / 200)" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_amenities"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tv_wait_time_detail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_occupancy" />
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            tools:text="Est. Wait: 0 min (No wait)" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btn_view_on_map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="View on Map" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
