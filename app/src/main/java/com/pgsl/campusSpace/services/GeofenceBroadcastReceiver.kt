@@ -6,94 +6,72 @@ import android.content.Intent
 import android.util.Log
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
-import com.google.firebase.firestore.FirebaseFirestore
-import com.pgsl.campusSpace.utils.FirebaseRTDB
-import com.pgsl.campusSpace.utils.FirebaseAuthUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import java.text.SimpleDateFormat
+import java.util.*
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
 
-    private val TAG = "GeofenceReceiver"
+    override fun onReceive(context: Context, intent: Intent) {
+        Log.d("GeofenceReceiver", "GeofenceBroadcastReceiver triggered! Action=${intent.action}")
 
-    override fun onReceive(context: Context?, intent: Intent?) {
-        if (context == null || intent == null) return
-        val geofencingEvent = GeofencingEvent.fromIntent(intent)
-        if (geofencingEvent!!.hasError()) {
-            Log.e(TAG, "Geofencing error: ${geofencingEvent.errorCode}")
+        if (intent.action != "com.pgsl.campusSpace.ACTION_GEOFENCE_EVENT") {
+            Log.w("GeofenceReceiver", "Unexpected action: ${intent.action}")
             return
         }
-        val transition = geofencingEvent.geofenceTransition
-        val triggering = geofencingEvent.triggeringGeofences
-        val firestore = FirebaseFirestore.getInstance()
-        val rtdb = FirebaseRTDB.instance
-        val currentUser = FirebaseAuthUtil.instance.currentUser?.uid
 
-        if (triggering == null || triggering.isEmpty()) return
+        val geofencingEvent = GeofencingEvent.fromIntent(intent)
+        if (geofencingEvent == null) {
+            Log.e("GeofenceReceiver", "GeofencingEvent.fromIntent returned null")
+            return
+        }
 
-        for (gf in triggering) {
-            val areaId = gf.requestId
-            when (transition) {
-                Geofence.GEOFENCE_TRANSITION_ENTER -> {
-                    Log.d(TAG, "Entered geofence: $areaId")
-                    // Increment RTDB count atomically
-                    incrementAreaCount(rtdb, areaId)
-                    // Update user's currentArea in Firestore
-                    if (currentUser != null) {
-                        firestore.collection("users").document(currentUser)
-                            .update("currentArea", areaId)
-                    }
-                }
-                Geofence.GEOFENCE_TRANSITION_EXIT -> {
-                    Log.d(TAG, "Exited geofence: $areaId")
-                    decrementAreaCount(rtdb, areaId)
-                    if (currentUser != null) {
-                        firestore.collection("users").document(currentUser)
-                            .update("currentArea", null)
-                    }
-                }
-                else -> {
-                    Log.d(TAG, "Other geofence transition: $transition for $areaId")
-                }
+        if (geofencingEvent.hasError()) {
+            Log.e("GeofenceReceiver", "GeofencingEvent error: ${geofencingEvent.errorCode}")
+            return
+        }
+        val transitionType = geofencingEvent.geofenceTransition
+        val triggeringGeofences = geofencingEvent.triggeringGeofences ?: return
+        val user = FirebaseAuth.getInstance().currentUser
+        val userId = user?.uid ?: "anonymous"
+        for (geofence in triggeringGeofences) {
+            val areaId = geofence.requestId
+            when (transitionType) {
+                Geofence.GEOFENCE_TRANSITION_ENTER -> updateFirebase(areaId, userId, "IN")
+                Geofence.GEOFENCE_TRANSITION_EXIT -> updateFirebase(areaId, userId, "OUT")
+                else -> Log.w("GeofenceReceiver", "Unknown transition: $transitionType")
             }
         }
     }
 
-    private fun incrementAreaCount(rtdb: com.google.firebase.database.FirebaseDatabase, areaId: String) {
-        val ref = rtdb.getReference("area_counts/$areaId")
-        // Use transaction to increment atomically
-        ref.runTransaction(object : com.google.firebase.database.Transaction.Handler {
-            override fun doTransaction(mutableData: com.google.firebase.database.MutableData): com.google.firebase.database.Transaction.Result {
-                val current = mutableData.getValue(Int::class.java) ?: 0
-                mutableData.value = current + 1
-                return com.google.firebase.database.Transaction.success(mutableData)
-            }
-            override fun onComplete(error: com.google.firebase.database.DatabaseError?, committed: Boolean, snapshot: com.google.firebase.database.DataSnapshot?) {
-                if (error != null) {
-                    Log.e(TAG, "Failed to increment count for $areaId: ${error.message}")
-                } else {
-                    Log.d(TAG, "Incremented count for $areaId")
-                }
-            }
-        })
-    }
+    private fun updateFirebase(areaId: String, userId: String, status: String) {
+        val db = FirebaseDatabase.getInstance().reference
+        val timestamp = System.currentTimeMillis()
+        val formattedTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(timestamp))
 
-    private fun decrementAreaCount(rtdb: com.google.firebase.database.FirebaseDatabase, areaId: String) {
-        val ref = rtdb.getReference("area_counts/$areaId")
-        ref.runTransaction(object : com.google.firebase.database.Transaction.Handler {
-            override fun doTransaction(mutableData: com.google.firebase.database.MutableData): com.google.firebase.database.Transaction.Result {
-                val current = mutableData.getValue(Int::class.java) ?: 0
-                val updated = if (current <= 0) 0 else current - 1
-                mutableData.value = updated
-                return com.google.firebase.database.Transaction.success(mutableData)
+        val logEntry = mapOf(
+            "userId" to userId,
+            "status" to status,
+            "timestamp" to formattedTime
+        )
+
+        db.child("logs").child(areaId).push().setValue(logEntry)
+            .addOnSuccessListener { Log.d("Firebase", "Logged $status for $userId in $areaId") }
+            .addOnFailureListener { e -> Log.e("Firebase", "Failed to log event: ${e.message}") }
+
+        val areaRef = db.child("areas").child(areaId).child("count")
+        areaRef.runTransaction(object : com.google.firebase.database.Transaction.Handler {
+            override fun doTransaction(currentData: com.google.firebase.database.MutableData): com.google.firebase.database.Transaction.Result {
+                var count = currentData.getValue(Int::class.java) ?: 0
+                count = if (status == "IN") count + 1 else if (status == "OUT" && count > 0) count - 1 else 0
+                currentData.value = count
+                return com.google.firebase.database.Transaction.success(currentData)
             }
+
             override fun onComplete(error: com.google.firebase.database.DatabaseError?, committed: Boolean, snapshot: com.google.firebase.database.DataSnapshot?) {
-                if (error != null) {
-                    Log.e(TAG, "Failed to decrement count for $areaId: ${error.message}")
-                } else {
-                    Log.d(TAG, "Decremented count for $areaId")
-                }
+                if (error != null) Log.e("Firebase", "Failed to update count: ${error.message}")
+                else if (committed) Log.d("Firebase", "Area $areaId count updated: ${snapshot?.value}")
             }
         })
     }

@@ -5,5 +5,5 @@ data class GeofenceArea(
     val name: String = "",
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
-    val radiusMetres: Double = 0.0
+    val radiusMeters: Double = 0.0
 )
