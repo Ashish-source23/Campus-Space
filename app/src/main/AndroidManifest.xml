@@ -25,14 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-
         <!-- This is the dashboard, with no launcher intent filter -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
-=======
         <receiver
             android:name=".services.GeofenceBroadcastReceiver"
             android:enabled="true"
@@ -41,7 +37,6 @@
                 <action android:name="com.example.campusspace.ACTION_GEOFENCE_EVENT"/>
             </intent-filter>
         </receiver>
->>>>>>> c373dc914e958d930b36052a05f9446e6a83ecb2
     </application>
 
 </manifest>
