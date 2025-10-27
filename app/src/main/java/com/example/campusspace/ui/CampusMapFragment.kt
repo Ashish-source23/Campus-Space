@@ -41,8 +41,12 @@ class CampusMapFragment : Fragment() {
         val density = requireContext().resources.displayMetrics.density
 
         places.forEachIndexed { index, place ->
-            // 1. Calculate occupancy percentage and get the correct color
-            val occupancy = (place.currentOccupancy.toFloat() / place.capacity.toFloat()) * 100f
+            val capacity = place.capacity?.toFloat() ?: 0f
+            val occupancy = if (capacity > 0f) {
+                (place.currentOccupancy?.toFloat() ?: 0f) / capacity * 100f
+            } else {
+                0f
+            }
             val backgroundResId = when {
                 occupancy < 30 -> R.drawable.shape_circle_green
                 occupancy < 70 -> R.drawable.shape_circle_yellow

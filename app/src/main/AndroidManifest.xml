@@ -29,7 +29,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.example.campusSpace.ACTION_GEOFENCE_EVENT"/>
+                <action android:name="com.example.campusspace.ACTION_GEOFENCE_EVENT"/>
             </intent-filter>
         </receiver>
     </application>

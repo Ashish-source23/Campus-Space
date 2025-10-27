@@ -12,11 +12,9 @@
         android:drawablePadding="8dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_places"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"
-        android:clipToPadding="false"/>
+        android:layout_height="match_parent"/>
+
 
 </LinearLayout>
