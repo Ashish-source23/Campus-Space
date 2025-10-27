@@ -1,4 +1,4 @@
-package com.example.campusspace // Match your package name from the error
+package com.example.campusspace
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -12,13 +12,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.campusspace.data.Place
-import com.example.campusspace.data.PlaceType
-import com.example.campusspace.databinding.ActivityMainBinding // Correct import
+import com.example.campusspace.databinding.ActivityMainBinding
 import com.example.campusspace.entity.GeofenceArea
 import com.example.campusspace.services.GeofenceBroadcastReceiver
 import com.example.campusspace.ui.CampusMapFragment
 import com.example.campusspace.ui.PlacesListFragment
-import com.example.campusspace.ui.MockData
 import com.example.campusspace.ui.ViewPagerAdapter
 import com.example.campusspace.utils.FirebaseDB
 import com.google.android.gms.location.Geofence
@@ -62,15 +60,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-// In D:/branch/Campus-Space/app/src/main/java/com/example/campusspace/MainActivity.kt
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         geofencingClient = LocationServices.getGeofencingClient(this)
-        FirebaseAuth.getInstance().signInAnonymously()
         checkPermissionsAndLoadGeofences()
         setupOverviewCards()
         setupViewPager()
@@ -79,18 +74,16 @@ class MainActivity : AppCompatActivity() {
         FirebaseDB.instance.collection("places")
             .addSnapshotListener { querySnapshot, exception ->
 
-                // Handle potential errors
                 if (exception != null) {
                     Log.e("MainActivity", "Listen failed.", exception)
                     return@addSnapshotListener
                 }
 
-                // Handle case where there's data
                 if (querySnapshot != null && !querySnapshot.isEmpty) {
                     val places = querySnapshot.toObjects(Place::class.java)
 
-                    val totalCapacity = places.sumOf { it.capacity ?: 0 } // Simpler safe call
-                    val totalOccupancy = places.sumOf { it.currentOccupancy ?: 0 } // Simpler safe call
+                    val totalCapacity = places.sumOf { it.capacity ?: 0 }
+                    val totalOccupancy = places.sumOf { it.currentOccupancy ?: 0 }
 
                     val availableSpots = totalCapacity - totalOccupancy
                     val occupancyPercentage = if (totalCapacity > 0) {
@@ -103,7 +96,6 @@ class MainActivity : AppCompatActivity() {
                     binding.tvAvailableSpots.text = availableSpots.toString()
                     binding.tvAvailableLocations.text = "Across ${places.size} locations"
                 } else {
-                    // Handle case where there's no data
                     Log.d("MainActivity", "No places found")
                     binding.tvOccupancyPercentage.text = "0%"
                     binding.tvOccupancyTotal.text = "0/0 people"
@@ -112,9 +104,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
-
-
-
 
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(this)
