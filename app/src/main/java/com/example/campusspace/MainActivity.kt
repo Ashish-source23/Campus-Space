@@ -24,7 +24,6 @@ import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
@@ -109,9 +108,6 @@ class MainActivity : AppCompatActivity() {
         val adapter = ViewPagerAdapter(this)
         adapter.addFragment(PlacesListFragment(), "Study Locations")
         adapter.addFragment(CampusMapFragment(), "Campus Map")
-        // You can add the CampusMapFragment here later
-        // adapter.addFragment(CampusMapFragment(), "Campus Map")
-
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = adapter.getPageTitle(position)
@@ -119,7 +115,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun switchToMapTab() {
-        // 1 is the index of your map tab (0 is Study Locations)
         binding.viewPager.currentItem = 1
     }
 
@@ -158,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                         name = doc.getString("name") ?: "",
                         latitude = doc.getDouble("latitude") ?: 0.0,
                         longitude = doc.getDouble("longitude") ?: 0.0,
-                        radiusMeters = doc.getDouble("radiusMeters") ?: 100.0
+                        radiusMeters = doc.getDouble("radiusMeters") ?: 10.0
                     )
 
                     geofenceList.add(

@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    // Your dependencies list looks fine, no changes needed here.
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("androidx.compose.foundation:foundation-layout:1.6.8")
     implementation(platform("androidx.compose:compose-bom:2024.06.00"))
@@ -72,4 +73,5 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     // For ChipGroup and Chips
     implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
 }
