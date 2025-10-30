@@ -2,10 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions like INTERNET might be needed for authentication -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,32 +15,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampusSpace">
 
-        <!-- This is now the startup activity -->
+        <!-- This is the startup activity -->
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
 
-        <!-- This is the dashboard, with no launcher intent filter -->
+        <!-- Your other activities must have exported="false" -->
+        <activity
+            android:name=".ui.SignUpActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
-=======
-        <receiver
-            android:name=".services.GeofenceBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.example.campusspace.ACTION_GEOFENCE_EVENT"/>
-            </intent-filter>
-        </receiver>
->>>>>>> c373dc914e958d930b36052a05f9446e6a83ecb2
     </application>
-
 </manifest>
