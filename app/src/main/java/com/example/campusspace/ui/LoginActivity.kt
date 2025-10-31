@@ -1,7 +1,10 @@
 package com.example.campusspace.ui
 
+import com.example.campusspace.R
 import android.content.Intent
 import android.os.Bundle
+import android.graphics.drawable.AnimationDrawable
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.campusspace.MainActivity
 import com.example.campusspace.databinding.LoginBinding
@@ -13,6 +16,20 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        LOGIN GRADIENT LOGIC
+//        setContentView(R.layout.login)
+//
+//        val layout = findViewById<ScrollView>(R.id.login_screen)
+//        layout.post {
+//            val animationDrawable = layout.background as AnimationDrawable
+//            animationDrawable.setEnterFadeDuration(2000)
+//            animationDrawable.setExitFadeDuration(2000)
+//            animationDrawable.start()
+//        }
+
+
+//Login Logic
         binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

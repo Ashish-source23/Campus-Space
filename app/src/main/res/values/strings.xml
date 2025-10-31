@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Campus Space</string>
+    <string name="tagline">Track campus crowd density in real-time</string>
+<!-- SignIn Page -->
+    <string name="signIn_welcome">Sign in to view campus crowd levels and find the best study spots</string>
+    <string name="tvBestOptionAvailable">spots available</string>
 </resources>

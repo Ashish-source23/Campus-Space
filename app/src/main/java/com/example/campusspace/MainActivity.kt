@@ -27,7 +27,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var geofencingClient: GeofencingClient
     private val geofenceList = mutableListOf<Geofence>()
@@ -52,14 +51,16 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MainActivity", "Background location granted")
                 loadGeofencesFromFirebase()
             }
+
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
                 requestBackgroundLocationPermission()
             }
+
             else -> Log.e("MainActivity", "Location permissions not granted")
         }
     }
 
-     override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         setupOverviewCards()
         setupViewPager()
     }
+
     private fun setupOverviewCards() {
         FirebaseDB.instance.collection("places")
             .addSnapshotListener { querySnapshot, exception ->
@@ -80,20 +82,24 @@ class MainActivity : AppCompatActivity() {
 
                 if (querySnapshot != null && !querySnapshot.isEmpty) {
                     val places = querySnapshot.toObjects(Place::class.java)
-
                     val totalCapacity = places.sumOf { it.capacity ?: 0 }
                     val totalOccupancy = places.sumOf { it.currentOccupancy ?: 0 }
 
                     val availableSpots = totalCapacity - totalOccupancy
                     val occupancyPercentage = if (totalCapacity > 0) {
                         (totalOccupancy.toFloat() / totalCapacity * 100).toInt()
-                    } else {
-                        0
-                    }
+                    } else 0.0
+
+
+
                     binding.tvOccupancyPercentage.text = "$occupancyPercentage%"
                     binding.tvOccupancyTotal.text = "$totalOccupancy/$totalCapacity people"
                     binding.tvAvailableSpots.text = availableSpots.toString()
                     binding.tvAvailableLocations.text = "Across ${places.size} locations"
+//                    binding.tvBusiest.text=${busiest}
+//                    binding.tvBusiestPercentage.text="${} full"
+//                    binding.tvBestOption=${best}
+//                    binding.tvBestOptionAvailable.text="${} spots available"
                 } else {
                     Log.d("MainActivity", "No places found")
                     binding.tvOccupancyPercentage.text = "0%"
@@ -101,6 +107,8 @@ class MainActivity : AppCompatActivity() {
                     binding.tvAvailableSpots.text = "0"
                     binding.tvAvailableLocations.text = "Across 0 locations"
                 }
+
+
             }
     }
 
@@ -159,7 +167,11 @@ class MainActivity : AppCompatActivity() {
                     geofenceList.add(
                         Geofence.Builder()
                             .setRequestId(area.id)
-                            .setCircularRegion(area.latitude, area.longitude, area.radiusMeters.toFloat())
+                            .setCircularRegion(
+                                area.latitude,
+                                area.longitude,
+                                area.radiusMeters.toFloat()
+                            )
                             .setExpirationDuration(Geofence.NEVER_EXPIRE)
                             .setTransitionTypes(
                                 Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT
@@ -186,13 +198,24 @@ class MainActivity : AppCompatActivity() {
         if (geofenceList.isEmpty()) return
         geofencingClient.addGeofences(getGeofencingRequest(), geofencePendingIntent)
             .addOnSuccessListener { Log.d("MainActivity", "Geofences added") }
-            .addOnFailureListener { e -> Log.e("MainActivity", "Failed to add geofences: ${e.message}") }
+            .addOnFailureListener { e ->
+                Log.e(
+                    "MainActivity",
+                    "Failed to add geofences: ${e.message}"
+                )
+            }
     }
 
     private fun removeGeofences() {
         geofencingClient.removeGeofences(geofencePendingIntent).run {
             addOnSuccessListener { Log.d("MainActivity", "Geofences removed") }
-            addOnFailureListener { e -> Log.e("MainActivity", "Failed to remove geofences: ${e.message}") }
+            addOnFailureListener { e ->
+                Log.e(
+                    "MainActivity",
+                    "Failed to remove geofences: ${e.message}"
+                )
+            }
         }
     }
+
 }
