@@ -1,20 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient1"
     tools:context=".ui.WelcomeActivity">
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="100dp"
@@ -68,21 +58,25 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="131dp"
+            android:layout_height="124dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="Check which campus areas are full and which are free, so you can pick the best place to go."
-            android:textColor="@color/grey"
             android:textAlignment="center"
+            android:textColor="@color/grey"
             android:textSize="20sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
 
     </LinearLayout>
 
     <!-- === SIGN IN BUTTON === -->
-    <Button android:id="@+id/navigateToSignInButton"
+    <Button
+        android:id="@+id/navigateToSignInButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:backgroundTint="@color/grey"
         android:padding="14dp"
         android:text="Sign In"
@@ -95,11 +89,37 @@
         app:layout_constraintVertical_bias="0.8"
         app:layout_constraintVertical_chainStyle="packed" />
 
+    <LinearLayout
+        android:id="@+id/alreadyHaveAccountPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/navigateToSignInButton"
+        app:layout_constraintStart_toStartOf="@+id/navigateToSignInButton"
+        app:layout_constraintTop_toBottomOf="@id/navigateToSignInButton">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account? "
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGIN"
+            android:textColor="#0D2A5E"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <!-- === SIGN UP BUTTON === -->
-    <Button android:id="@+id/navigateToSignUpButton"
+    <Button
+        android:id="@+id/navigateToSignUpButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="60dp"
         android:backgroundTint="@color/grey"
         android:padding="14dp"
         android:text="Sign Up"
@@ -109,5 +129,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/navigateToSignInButton" />
+
+
+    <LinearLayout
+        android:id="@+id/dontHaveAccountPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/navigateToSignUpButton"
+        app:layout_constraintStart_toStartOf="@+id/navigateToSignUpButton"
+        app:layout_constraintTop_toBottomOf="@id/navigateToSignUpButton">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? "
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create new account"
+            android:textColor="#0D2A5E"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
