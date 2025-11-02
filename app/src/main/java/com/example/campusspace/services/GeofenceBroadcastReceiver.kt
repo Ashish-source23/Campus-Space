@@ -16,7 +16,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d("GeofenceReceiver", "GeofenceBroadcastReceiver triggered! Action=${intent.action}")
 
-        if (intent.action != "com.example.campusSpace.ACTION_GEOFENCE_EVENT") {
+        if (intent.action != "com.example.campusspace.ACTION_GEOFENCE_EVENT") {
             Log.w("GeofenceReceiver", "Unexpected action: ${intent.action}")
             return
         }

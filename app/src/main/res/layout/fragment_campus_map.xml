@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    tools:context=".ui.CampusMapFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,32 +16,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="16dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawablePadding="8dp"
                 android:text="Campus Crowd Map"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                app:drawableStartCompat="@drawable/ic_users"
-                android:drawablePadding="8dp"/>
+                app:drawableStartCompat="@drawable/ic_users" />
 
             <ImageButton
                 android:id="@+id/btn_zoom_out"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_zoom_out"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+                android:layout_width="46dp"
+                android:layout_height="54dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Zoom Out"
+                android:src="@drawable/ic_zoom_out" />
 
             <ImageButton
                 android:id="@+id/btn_zoom_in"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_zoom_in"
-                android:background="?attr/selectableItemBackgroundBorderless"/>
+                android:layout_width="46dp"
+                android:layout_height="54dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Zoom In"
+                android:src="@drawable/ic_zoom_in" />
         </LinearLayout>
 
         <LinearLayout
@@ -85,14 +88,18 @@
                 android:layout_marginStart="4dp"/>
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/map_container"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_margin="16dp"
-            android:background="@color/grey_50">
+            android:layout_height="match_parent"
+            tools:context=".ui.CampusMapFragment">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="530dp" />
+
+        </FrameLayout>
+
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
