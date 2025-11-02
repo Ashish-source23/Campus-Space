@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
                         busiestView.text = "${busiest?.first}"
                         busiestByPercentage.text= "${busiest?.second?.toInt()}%"
                         best.text = "${leastBusy?.first}"
-                        bestOption.text= "${leastBusy?.third}"
+                        bestOption.text= "${leastBusy?.third} spots available"
                     }
                 } else {
                     // Handle case where there's no data
