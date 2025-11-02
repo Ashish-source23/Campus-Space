@@ -3,6 +3,9 @@ package com.example.campusspace.data
 import com.google.firebase.firestore.IgnoreExtraProperties
 
 @IgnoreExtraProperties
+
+
+//Data class to map Firebase Data
 data class Place(
     val id: String? = null,
     val name: String? = null,

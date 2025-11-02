@@ -8,17 +8,16 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.campusspace.data.Place
-import com.example.campusspace.data.PlaceType
 import com.example.campusspace.databinding.ActivityMainBinding // Correct import
 import com.example.campusspace.entity.GeofenceArea
 import com.example.campusspace.services.GeofenceBroadcastReceiver
 import com.example.campusspace.ui.CampusMapFragment
 import com.example.campusspace.ui.PlacesListFragment
-import com.example.campusspace.ui.MockData
 import com.example.campusspace.ui.ViewPagerAdapter
 import com.example.campusspace.utils.FirebaseDB
 import com.google.android.gms.location.Geofence
@@ -75,6 +74,9 @@ class MainActivity : AppCompatActivity() {
         setupOverviewCards()
         setupViewPager()
     }
+
+
+//    Function to set the Dashboard Top Cards
     private fun setupOverviewCards() {
         FirebaseDB.instance.collection("places")
             .addSnapshotListener { querySnapshot, exception ->
@@ -98,10 +100,49 @@ class MainActivity : AppCompatActivity() {
                     } else {
                         0
                     }
-                    binding.tvOccupancyPercentage.text = "$occupancyPercentage%"
-                    binding.tvOccupancyTotal.text = "$totalOccupancy/$totalCapacity people"
-                    binding.tvAvailableSpots.text = availableSpots.toString()
-                    binding.tvAvailableLocations.text = "Across ${places.size} locations"
+
+                    val occupancy_percentageView = findViewById<TextView>(R.id.tv_occupancy_percentage)
+                    val tv_occupancy_totalView = findViewById<TextView>(R.id.tv_occupancy_total)
+                    val tv_available_spotsView = findViewById<TextView>(R.id.tv_available_spots)
+                    val tv_available_locationsView = findViewById<TextView>(R.id.tv_available_locations)
+
+
+                    occupancy_percentageView.text = "$occupancyPercentage"
+                    tv_occupancy_totalView.text = "$totalOccupancy/$totalCapacity people"
+                    tv_available_spotsView.text = availableSpots.toString()
+                    tv_available_locationsView.text = "Across ${places.size} locations"
+
+
+
+                    val spaceList = mutableListOf<Triple<String, Double, Int>>() //name + percentage + remaining
+
+                    for (place in querySnapshot) {
+                            val spot = place.toObject(Place::class.java)
+
+                            if (spot!= null && (spot.capacity?:0)>0) {
+                                val name= spot.name?:""
+                                val availableSpots = spot.capacity!! - spot.currentOccupancy!!
+                                val percentage =
+                                    (spot.currentOccupancy!!.toDouble() / spot.capacity!!) * 100
+                                spaceList.add(Triple(name, percentage, availableSpots))
+                            }
+                        }
+
+                    if(spaceList.isNotEmpty()){
+                        val busiest = spaceList.maxByOrNull { it.second }
+                        val leastBusy = spaceList.minByOrNull { it.second }
+
+                        // Display in your TextViews
+                        val busiestView = findViewById<TextView>(R.id.tv_busiest)
+                        val busiestByPercentage = findViewById<TextView>(R.id.tv_busiest_percentage)
+                        val best = findViewById<TextView>(R.id.tv_bestOption)
+                        val bestOption = findViewById<TextView>(R.id.tv_bestOption_available)
+
+                        busiestView.text = "${busiest?.first}"
+                        busiestByPercentage.text= "${busiest?.second?.toInt()}%"
+                        best.text = "${leastBusy?.first}"
+                        bestOption.text= "${leastBusy?.third}"
+                    }
                 } else {
                     // Handle case where there's no data
                     Log.d("MainActivity", "No places found")
@@ -112,9 +153,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
-
-
-
 
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(this)
@@ -133,7 +171,6 @@ class MainActivity : AppCompatActivity() {
         // 1 is the index of your map tab (0 is Study Locations)
         binding.viewPager.currentItem = 1
     }
-
 
     private fun checkPermissionsAndLoadGeofences() {
         val fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
