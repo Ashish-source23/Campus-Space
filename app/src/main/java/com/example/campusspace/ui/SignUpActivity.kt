@@ -51,7 +51,7 @@ class SignUpActivity : AppCompatActivity() {
                             firestore.collection("users").document(userId)
                                 .set(user)
                                 .addOnSuccessListener {
-                                    Toast.makeText(this, "Registration successful! Please log in.", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this, "Registration successful! Logging in...", Toast.LENGTH_LONG).show()
                                     val intent = Intent(this, LoginActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)

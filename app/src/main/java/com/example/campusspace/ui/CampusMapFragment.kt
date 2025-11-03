@@ -237,7 +237,6 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
 
     // --- MODIFIED FUNCTION SIGNATURE ---
     private fun createCustomMarkerIcon(text: String, occupancyPercent: Int): BitmapDescriptor {
-        // --- END OF MODIFICATION ---
         val markerView = LayoutInflater.from(requireContext()).inflate(R.layout.custom_marker_layout, null)
         val markerTextView = markerView.findViewById<TextView>(R.id.marker_text)
 
@@ -247,10 +246,7 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
             occupancyPercent < 70 -> R.drawable.shape_circle_yellow
             else -> R.drawable.shape_circle_red
         }
-
-        // --- MODIFIED TEXT ---
-        markerTextView.text = text // Set the new text (e.g., "65%")
-        // --- END OF MODIFICATION ---
+        markerTextView.text = text
         markerTextView.background = ContextCompat.getDrawable(requireContext(), backgroundResId)
 
         markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
@@ -262,8 +258,6 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
 
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
-
-    // ... (no changes to lifecycle methods: onResume, onStart, onStop, etc.) ...
 
     override fun onResume() {
         super.onResume()
