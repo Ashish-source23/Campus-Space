@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.campusspace.utils.FirebaseDB
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.google.firebase.auth.FirebaseAuth
@@ -48,7 +49,8 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
     private fun updateFirebase(areaId: String, userId: String, status: String) {
         val db = FirebaseDatabase.getInstance().reference
         val timestamp = System.currentTimeMillis()
-        val formattedTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(timestamp))
+        val formattedTime =
+            SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(timestamp))
 
         val logEntry = mapOf(
             "userId" to userId,
@@ -60,18 +62,53 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
             .addOnSuccessListener { Log.d("Firebase", "Logged $status for $userId in $areaId") }
             .addOnFailureListener { e -> Log.e("Firebase", "Failed to log event: ${e.message}") }
 
-        val areaRef = db.child("areas").child(areaId).child("count")
-        areaRef.runTransaction(object : com.google.firebase.database.Transaction.Handler {
+        val firestoreDb = FirebaseDB.instance
+        val firestorePlaceRef = firestoreDb.collection("places").document(areaId)
+        val incrementValue = if (status == "IN") 1L else -1L
+
+        firestoreDb.runTransaction { transaction ->
+            val snapshot = transaction.get(firestorePlaceRef)
+            val currentOccupancy = snapshot.getLong("currentOccupancy") ?: 0L
+            val newOccupancy = currentOccupancy + incrementValue
+            if (newOccupancy >= 0) {
+                transaction.update(firestorePlaceRef, "currentOccupancy", newOccupancy)
+            }
+            null
+        }.addOnSuccessListener {
+            Log.d(
+                "Firestore",
+                "Transaction success: 'places' node for $areaId currentOccupancy updated."
+            )
+        }.addOnFailureListener { e ->
+            Log.e(
+                "Firestore",
+                "Transaction failure: Failed to update 'places' currentOccupancy: ${e.message}"
+            )
+        }
+
+        val placeRef = db.child("places").child(areaId).child("currentOccupancy")
+        placeRef.runTransaction(object : com.google.firebase.database.Transaction.Handler {
             override fun doTransaction(currentData: com.google.firebase.database.MutableData): com.google.firebase.database.Transaction.Result {
-                var count = currentData.getValue(Int::class.java) ?: 0
-                count = if (status == "IN") count + 1 else if (status == "OUT" && count > 0) count - 1 else 0
-                currentData.value = count
+                var occupancy = currentData.getValue(Int::class.java) ?: 0
+                occupancy =
+                    if (status == "IN") occupancy + 1 else if (status == "OUT" && occupancy > 0) occupancy - 1 else 0
+                currentData.value = occupancy
                 return com.google.firebase.database.Transaction.success(currentData)
             }
 
-            override fun onComplete(error: com.google.firebase.database.DatabaseError?, committed: Boolean, snapshot: com.google.firebase.database.DataSnapshot?) {
-                if (error != null) Log.e("Firebase", "Failed to update count: ${error.message}")
-                else if (committed) Log.d("Firebase", "Area $areaId count updated: ${snapshot?.value}")
+            override fun onComplete(
+                error: com.google.firebase.database.DatabaseError?,
+                committed: Boolean,
+                snapshot: com.google.firebase.database.DataSnapshot?
+            ) {
+                if (error != null) Log.e(
+                    "Firebase",
+                    "Failed to update 'places' currentOccupancy: ${error.message}"
+                )
+                else if (committed) Log.d(
+                    "Firebase",
+                    "'places' node for $areaId currentOccupancy updated: ${snapshot?.value}"
+                )
             }
         })
     }
