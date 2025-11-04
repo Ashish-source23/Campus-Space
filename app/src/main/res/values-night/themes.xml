@@ -3,6 +3,10 @@
     <style name="Base.Theme.CampusSpace" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <item name="colorPrimary">@color/grey</item>
+        <item name="colorOnNavigation">@color/grey_50</item>
+        <item name="colorBackgroundPrimary">@color/black_night</item>
+        <item name="colorOnBackground">@color/grey_night</item>
+        <item name="colorSearch">@color/search_night</item>
+        <item name="colorSearchButton">@color/blue</item>
     </style>
 </resources>

@@ -6,7 +6,10 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardElevation="4dp"
-    app:cardUseCompatPadding="true"> <androidx.constraintlayout.widget.ConstraintLayout
+    app:cardBackgroundColor="?attr/colorOnBackground"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp">
@@ -22,10 +25,16 @@
 
     <TextView
         android:id="@+id/tv_place_name"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
         android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/chip_crowd_level"
         app:layout_constraintStart_toEndOf="@id/tv_place_icon"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,7 +47,8 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/btn_expand"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Low" />
+        tools:text="Low"
+        />
 
     <ImageButton
         android:id="@+id/btn_expand"
@@ -54,12 +64,17 @@
 
     <TextView
         android:id="@+id/tv_place_location"
-        android:layout_width="0dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="-30dp"
         android:drawableStart="@drawable/ic_map_pin"
-        android:drawablePadding="4dp"
+        android:drawablePadding="2dp"
+        android:maxLines="2"
         android:textAppearance="?attr/textAppearanceBodySmall"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeMaxTextSize="13sp"
         app:layout_constraintStart_toStartOf="@id/tv_place_name"
         app:layout_constraintTop_toBottomOf="@id/tv_place_name"
         tools:text="Building A, Floor 2" />
@@ -67,7 +82,7 @@
     <ProgressBar
         android:id="@+id/progress_occupancy"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
+        android:layout_width="250dp"
         android:layout_height="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toStartOf="@id/tv_occupancy_ratio"
@@ -137,6 +152,7 @@
             android:id="@+id/btn_view_on_map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorSearchButton"
             android:layout_marginTop="12dp"
             android:text="View on Map" />
 

@@ -3,6 +3,7 @@ package com.example.campusspace.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.campusspace.R
@@ -45,9 +46,30 @@ class PlacesListAdapter(
             progressOccupancy.progress = occupancyPercentage
 
             when {
-                occupancyPercentage < 30 -> chipCrowdLevel.text = "Low"
-                occupancyPercentage < 70 -> chipCrowdLevel.text = "Medium"
-                else -> chipCrowdLevel.text = "High"
+                occupancyPercentage < 30 -> {
+                    chipCrowdLevel.text = "Low"
+                    chipCrowdLevel.setTextColor(
+                        ContextCompat.getColor(chipCrowdLevel.context, R.color.white)
+                    )
+                    chipCrowdLevel.chipBackgroundColor =
+                        ContextCompat.getColorStateList(chipCrowdLevel.context,R.color.btn_green)
+                }
+                occupancyPercentage < 70 -> {
+                    chipCrowdLevel.text = "Medium"
+                    chipCrowdLevel.setTextColor(
+                        ContextCompat.getColor(chipCrowdLevel.context, R.color.black)
+                    )
+                    chipCrowdLevel.chipBackgroundColor =
+                        ContextCompat.getColorStateList(chipCrowdLevel.context,R.color.btn_yellow)
+                }
+                else -> {
+                    chipCrowdLevel.text = "High"
+                    chipCrowdLevel.setTextColor(
+                        ContextCompat.getColor(chipCrowdLevel.context, R.color.white)
+                    )
+                    chipCrowdLevel.chipBackgroundColor =
+                        ContextCompat.getColorStateList(chipCrowdLevel.context,R.color.btn_red)
+                }
             }
 
             val isExpanded = isSelected

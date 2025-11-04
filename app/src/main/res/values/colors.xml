@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="red_500">#EF4444</color>
-    <color name="blue_theme">#BBDCE5</color>
-    <color name="white_navigation">#EEEEEE</color>
-    <color name="beige">#D9C4B0</color>
-    <color name="theme_blue_background">#1B3C53</color>
-    <color name="theme_darkBlue">#234C6A</color>
-    <color name="theme_beige">#EFECE3</color>
-    <color name="theme_blue">#456882</color>
-    <color name="grey">#37353E</color>
-    <color name="font_grey">#D3DAD9</color>
+    <color name="green_600">#16A34A</color>
+    <color name="yellow_500">#EAB308</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey_50">#F9FAFB</color>
-    <color name="green_600">#16A34A</color>
-    <color name="yellow_500">#EAB308</color>
     <!--Color Schemes-->
     <color name="primary_bg">#ffffff</color>
     <color name="primary_foreground">#0a0a0a</color>
+    <color name="white_navigation">#EEEEEE</color>
+    <color name="beige">#D9C4B0</color>
+    <color name="theme_beige">#EFECE3</color>
+    <color name="theme_blue">#456882</color>
+    <color name="blue">#BBDCE5</color>
+    <color name="grey">#37353E</color>
+    <color name="font_grey">#D3DAD9</color>
+    <color name="btn_yellow">#FFCC00</color>
+    <color name="btn_green">#78C841</color>
+    <color name="btn_red">#DC2525</color>
+<!--Night Theme Colors-->
+    <color name="black_night">#393E46</color>
+    <color name="grey_night">#222831</color>
+    <color name="search_night">#F2F2F2</color>
+    
 </resources>
