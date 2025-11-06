@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.campusspace.MainActivity
 import com.example.campusspace.data.Place
@@ -17,6 +18,8 @@ class PlacesListFragment : Fragment() {
 
     private var _binding: FragmentPlacesListBinding? = null
     private val binding get() = _binding!!
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private lateinit var placesListAdapter: PlacesListAdapter
     private var firestoreListener: ListenerRegistration? = null
@@ -35,17 +38,16 @@ class PlacesListFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        // This is the correct way to instantiate the adapter
         placesListAdapter = PlacesListAdapter { selectedPlace ->
-            // When a "View on Map" button is clicked...
-            // 1. Tell MainActivity to switch to the map tab
-            (activity as? MainActivity)?.switchToMapTab()
+            // --- MODIFIED BLOCK ---
+            // 1. Tell the ViewModel which place was selected
+            sharedViewModel.selectPlace(selectedPlace)
 
-            // TODO: Use a Shared ViewModel to pass the selectedPlace to the CampusMapFragment
-            // so it can focus on the selected location.
+            // 2. Tell MainActivity to switch to the map tab
+            (activity as? MainActivity)?.switchToMapTab()
+            // --- END OF MODIFICATION ---
         }
 
-        // Correctly access recyclerView via the binding object
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = placesListAdapter

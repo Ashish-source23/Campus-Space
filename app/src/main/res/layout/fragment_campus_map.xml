@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/map_header" android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -44,59 +44,41 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Zoom In"
                 android:src="@drawable/ic_zoom_in" />
-        </LinearLayout>
+
+ </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/map_legend" android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp">
-
-            <View
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:background="@drawable/shape_circle_green"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Low"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="12dp"/>
-
-            <View
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:background="@drawable/shape_circle_yellow"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Medium"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="12dp"/>
-
-            <View
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:background="@drawable/shape_circle_red"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="High"
-                android:layout_marginStart="4dp"/>
         </LinearLayout>
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.CampusMapFragment">
+            android:id="@+id/map_container" android:layout_width="match_parent"
+            android:layout_height="530dp" tools:context=".ui.CampusMapFragment">
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
+            <com.example.campusspace.ui.TouchableWrapper
                 android:layout_width="match_parent"
-                android:layout_height="530dp" />
+                android:layout_height="match_parent">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" /> </com.example.campusspace.ui.TouchableWrapper>
+
+            <ImageButton
+                android:id="@+id/btn_exit_fullscreen"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="8dp"
+                android:background="@drawable/shape_circle_translucent" android:contentDescription="Exit Full Screen"
+                android:src="@drawable/ic_fullscreen_exit" android:visibility="gone"
+                tools:visibility="visible"/>
 
         </FrameLayout>
 
