@@ -13,21 +13,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
-
     override fun onReceive(context: Context, intent: Intent) {
         Log.d("GeofenceReceiver", "GeofenceBroadcastReceiver triggered! Action=${intent.action}")
-
         if (intent.action != "com.example.campusspace.ACTION_GEOFENCE_EVENT") {
             Log.w("GeofenceReceiver", "Unexpected action: ${intent.action}")
             return
         }
-
         val geofencingEvent = GeofencingEvent.fromIntent(intent)
         if (geofencingEvent == null) {
             Log.e("GeofenceReceiver", "GeofencingEvent.fromIntent returned null")
             return
         }
-
         if (geofencingEvent.hasError()) {
             Log.e("GeofenceReceiver", "GeofencingEvent error: ${geofencingEvent.errorCode}")
             return
@@ -51,13 +47,11 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
         val timestamp = System.currentTimeMillis()
         val formattedTime =
             SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date(timestamp))
-
         val logEntry = mapOf(
             "userId" to userId,
             "status" to status,
             "timestamp" to formattedTime
         )
-
         db.child("logs").child(areaId).push().setValue(logEntry)
             .addOnSuccessListener { Log.d("Firebase", "Logged $status for $userId in $areaId") }
             .addOnFailureListener { e -> Log.e("Firebase", "Failed to log event: ${e.message}") }
@@ -103,7 +97,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
             ) {
                 if (error != null) Log.e(
                     "Firebase",
-                    "Failed to update 'places' currentOccupancy: ${error.message}"
+                    "Failed to update $areaId currentOccupancy: ${error.message}"
                 )
                 else if (committed) Log.d(
                     "Firebase",
