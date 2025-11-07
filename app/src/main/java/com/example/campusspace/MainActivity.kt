@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
                     val tv_available_locationsView = findViewById<TextView>(R.id.tv_available_locations)
 
 
-                    occupancy_percentageView.text = "$occupancyPercentage"
+                    occupancy_percentageView.text = "$occupancyPercentage%"
                     tv_occupancy_totalView.text = "$totalOccupancy/$totalCapacity people"
                     tv_available_spotsView.text = availableSpots.toString()
                     tv_available_locationsView.text = "Across ${places.size} locations"

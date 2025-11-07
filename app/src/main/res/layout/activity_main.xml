@@ -29,206 +29,242 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <!--
+    MODIFICATION 1:
+    This LinearLayout is now the main content container.
+    It has the 'appbar_scrolling_view_behavior'
+    -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <!--
+        MODIFICATION 2:
+        This NestedScrollView *ONLY* wraps the summary cards (GridLayout)
+        so that *only* that part scrolls. Its height is 'wrap_content'.
+        -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:rowCount="2"
+                    android:useDefaultMargins="true">
+
+                    <!-- ... All your summary MaterialCardViews go here ... -->
+                    <!-- (Campus Occupancy) -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp"
+                            android:background="@color/primary_bg"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Campus Occupancy"
+                                android:textAppearance="?attr/textAppearanceLabelMedium"
+                                android:textColor="@color/primary_foreground"
+                                />
+                            <TextView
+                                android:id="@+id/tv_occupancy_percentage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/primary_foreground"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                tools:text="58%" />
+                            <TextView
+                                android:id="@+id/tv_occupancy_total"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:textColor="@color/primary_foreground"                            tools:text="257/424 people"/>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- (Available Spots) -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@color/primary_bg"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Available Spots"
+                                android:textAppearance="?attr/textAppearanceLabelMedium"
+                                android:textColor="@color/primary_foreground"
+                                />
+
+                            <TextView
+                                android:id="@+id/tv_available_spots"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/green_600"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                tools:text="167"
+                                />
+
+                            <TextView
+                                android:id="@+id/tv_available_locations"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:textColor="@color/primary_foreground"
+                                tools:text="Across 6 locations"
+                                />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- (Busiest Location) -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/primary_bg"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Busiest Location"
+                                android:textAppearance="?attr/textAppearanceLabelMedium"
+                                android:textColor="@color/primary_foreground" />
+
+                            <TextView
+                                android:id="@+id/tv_busiest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/primary_foreground"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:maxLines="1"
+                                app:autoSizeTextType="uniform"
+                                app:autoSizeMinTextSize="14sp"
+                                app:autoSizeMaxTextSize="18sp"
+                                tools:text="Cafeteria"
+
+                                />
+
+                            <TextView
+                                android:id="@+id/tv_busiest_percentage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:textColor="@color/primary_foreground"
+                                tools:text="81% full" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- (Best Option) -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/primary_bg"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Best Option"
+                                android:textAppearance="?attr/textAppearanceLabelMedium"
+                                android:textColor="@color/primary_foreground" />
+
+                            <TextView
+                                android:id="@+id/tv_bestOption"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/primary_foreground"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:maxLines="1"
+                                app:autoSizeTextType="uniform"
+                                app:autoSizeMinTextSize="14sp"
+                                app:autoSizeMaxTextSize="18sp"
+                                tools:text="Central Library" />
+
+                            <TextView
+                                android:id="@+id/tv_bestOption_available"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:textColor="@color/primary_foreground"
+                                tools:text="155 spots available" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </GridLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!--
+        MODIFICATION 3:
+        The TabLayout is now OUTSIDE the NestedScrollView
+        -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/colorSearch"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            />
 
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:rowCount="2"
-                android:useDefaultMargins="true">
+        <!--
+        MODIFICATION 4:
+        The ViewPager2 is also OUTSIDE the NestedScrollView.
+        Its height is now "match_parent" which will make it
+        fill the REST of the available screen space.
+        This is the most important change.
+        -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"/>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="12dp"
-                        android:background="@color/primary_bg"
-                        >
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Campus Occupancy"
-                            android:textAppearance="?attr/textAppearanceLabelMedium"
-                            android:textColor="@color/primary_foreground"
-                            />
-                        <TextView
-                            android:id="@+id/tv_occupancy_percentage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_foreground"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            tools:text="58%" />
-                        <TextView
-                            android:id="@+id/tv_occupancy_total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:textColor="@color/primary_foreground"                            tools:text="257/424 people"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@color/primary_bg"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Available Spots"
-                            android:textAppearance="?attr/textAppearanceLabelMedium"
-                            android:textColor="@color/primary_foreground"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_available_spots"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/green_600"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            tools:text="167"
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_available_locations"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:textColor="@color/primary_foreground"
-                            tools:text="Across 6 locations"
-                            />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/primary_bg"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Busiest Location"
-                            android:textAppearance="?attr/textAppearanceLabelMedium"
-                            android:textColor="@color/primary_foreground" />
-
-                        <TextView
-                            android:id="@+id/tv_busiest"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_foreground"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:maxLines="1"
-                            app:autoSizeTextType="uniform"
-                            app:autoSizeMinTextSize="14sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            tools:text="Cafeteria"
-
-                            />
-
-                        <TextView
-                            android:id="@+id/tv_busiest_percentage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:textColor="@color/primary_foreground"
-                            tools:text="81% full" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/primary_bg"
-                        android:orientation="vertical"
-                        android:padding="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Best Option"
-                            android:textAppearance="?attr/textAppearanceLabelMedium"
-                            android:textColor="@color/primary_foreground" />
-
-                        <TextView
-                            android:id="@+id/tv_bestOption"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/primary_foreground"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:maxLines="1"
-                            app:autoSizeTextType="uniform"
-                            app:autoSizeMinTextSize="14sp"
-                            app:autoSizeMaxTextSize="18sp"
-                            tools:text="Central Library" />
-
-                        <TextView
-                            android:id="@+id/tv_bestOption_available"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:textColor="@color/primary_foreground"
-                            tools:text="155 spots available" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-            </GridLayout>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="?attr/colorSearch"
-                app:tabMode="fixed"
-                app:tabGravity="fill"
-                />
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
