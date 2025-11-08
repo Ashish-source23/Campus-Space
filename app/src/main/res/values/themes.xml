@@ -2,6 +2,9 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CampusSpace" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="android:statusBarColor">@color/white_navigation</item>
+        <item name="android:windowLightStatusBar">true</item>
+
         <item name="colorOnNavigation">@color/font_grey</item>
         <item name="colorBackgroundPrimary">@color/white_navigation</item>
         <item name="colorOnBackground">@color/font_grey</item>

@@ -6,15 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:layout_marginBottom="20dp"
     tools:context=".ui.CampusMapFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        >
 
         <LinearLayout
-            android:id="@+id/map_header" android:layout_width="match_parent"
+            android:id="@+id/map_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -70,15 +74,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" /> </com.example.campusspace.ui.TouchableWrapper>
 
-            <ImageButton
-                android:id="@+id/btn_exit_fullscreen"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="top|end"
-                android:layout_margin="8dp"
-                android:background="@drawable/shape_circle_translucent" android:contentDescription="Exit Full Screen"
-                android:src="@drawable/ic_fullscreen_exit" android:visibility="gone"
-                tools:visibility="visible"/>
+<!--            <ImageButton-->
+<!--                android:id="@+id/btn_exit_fullscreen"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_gravity="top|end"-->
+<!--                android:layout_margin="8dp"-->
+<!--                android:background="@drawable/shape_circle_translucent" android:contentDescription="Exit Full Screen"-->
+<!--                android:src="@drawable/ic_fullscreen_exit" android:visibility="gone"-->
+<!--                tools:visibility="visible"-->
+<!--            />-->
 
         </FrameLayout>
 

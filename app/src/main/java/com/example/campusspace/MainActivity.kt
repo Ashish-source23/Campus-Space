@@ -11,11 +11,13 @@ import android.util.Log
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.example.campusspace.data.Place
 import com.example.campusspace.databinding.ActivityMainBinding // Correct import
 import com.example.campusspace.entity.GeofenceArea
 import com.example.campusspace.services.GeofenceBroadcastReceiver
+import com.example.campusspace.ui.WelcomeActivity
 import com.example.campusspace.ui.CampusMapFragment
 import com.example.campusspace.ui.PlacesListFragment
 import com.example.campusspace.ui.ViewPagerAdapter
@@ -27,6 +29,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.example.campusspace.utils.showLogoutDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,17 +69,34 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
-        geofencingClient = LocationServices.getGeofencingClient(this)
         FirebaseAuth.getInstance().signInAnonymously()
+
+        geofencingClient = LocationServices.getGeofencingClient(this)
         checkPermissionsAndLoadGeofences()
         setupOverviewCards()
         setupViewPager()
+        setupToolbarMenu()
+
     }
 
+//    Logout function
 
-//    Function to set the Dashboard Top Cards
+        private fun setupToolbarMenu() {
+            binding.toolbar.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_logout -> {
+                        showLogoutDialog(this)  // ✅ One line does it all
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
+
+    //    Function to set the Dashboard Top Cards
     private fun setupOverviewCards() {
         FirebaseDB.instance.collection("places")
             .addSnapshotListener { querySnapshot, exception ->
