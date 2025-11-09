@@ -259,7 +259,7 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
                 map.addCircle(
                     CircleOptions()
                         .center(position)
-                        .radius(circleRadius) // Use dynamic radius
+                        .radius(circleRadius.toDouble()) // Use dynamic radius
                         .fillColor(fillColor.toInt())
                         .strokeColor(strokeColor.toInt())
                         .strokeWidth(2f)

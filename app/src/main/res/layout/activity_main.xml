@@ -73,13 +73,14 @@
                         android:textColor="@color/primary_foreground"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        tools:text="58%" />
+                        tools:text="Occupancy %" />
                     <TextView
                         android:id="@+id/tv_occupancy_total"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceBodySmall"
-                        android:textColor="@color/primary_foreground"                            tools:text="257/424 people"/>
+                        android:textColor="@color/primary_foreground"
+                        tools:text="257/424 people"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -109,7 +110,7 @@
                         android:textColor="@color/green_600"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        tools:text="167"
+                        tools:text="Available spots"
                         />
 
                     <TextView
@@ -209,7 +210,6 @@
                         tools:text="155 spots available" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
         </GridLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -217,6 +217,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:background="?attr/colorSearch"
@@ -227,10 +228,11 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="-10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
