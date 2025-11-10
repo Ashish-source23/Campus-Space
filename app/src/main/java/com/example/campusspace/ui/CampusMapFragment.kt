@@ -37,6 +37,8 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
     // Get the *same* Activity-scoped ViewModel
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
+    private var markersOnMap: MutableList<Marker> = mutableListOf()
+
     // --- 4. DELETED ---
     // The internal `data class Place` is GONE. We now use the imported one.
 
@@ -150,6 +152,14 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
 
         // Animate to the new position (1 second duration)
         map.animateCamera(CameraUpdateFactory.newCameraPosition(newCameraPosition), 1000, null)
+
+        val markerToClick = markersOnMap.find { marker ->
+            val markerPlace = marker.tag as? Place
+            markerPlace?.latitude == place.latitude && markerPlace?.longitude == place.longitude
+        }
+
+        // Show its info window, as if the user clicked it.
+        markerToClick?.showInfoWindow()
     }
 
     private fun enableMyLocation() {
@@ -198,6 +208,7 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
     private fun populateMapMarkers(places: List<Place>) {
         val map = googleMap ?: return
         map.clear() // Clear existing markers before repopulating
+        markersOnMap.clear()
 
         places.forEach { place ->
             // Check against default 0.0, not null
@@ -216,6 +227,20 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
 
                 val markerText = "${occupancyPercent.toInt()}%"
                 val icon = createCustomMarkerIcon(markerText, occupancyPercent.toInt())
+
+                val marker = map.addMarker(
+                    MarkerOptions()
+                        .position(position)
+                        .title(place.name)
+                        .snippet("Occupancy: $currentOccupancy / $capacity (${occupancyPercent.toInt()}%)")
+                        .icon(icon)
+                )
+
+                // Now, tag the marker with its data and add it to our list
+                if (marker != null) {
+                    marker.tag = place // Tag the marker with the full Place object
+                    markersOnMap.add(marker) // Add it to our tracking list
+                }
 
                 map.addMarker(
                     MarkerOptions()
