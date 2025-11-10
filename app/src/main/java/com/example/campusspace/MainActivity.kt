@@ -19,6 +19,7 @@ import com.example.campusspace.entity.GeofenceArea
 import com.example.campusspace.services.GeofenceBroadcastReceiver
 import com.example.campusspace.ui.WelcomeActivity
 import com.example.campusspace.ui.CampusMapFragment
+import com.example.campusspace.ui.MockData
 import com.example.campusspace.ui.PlacesListFragment
 import com.example.campusspace.ui.ViewPagerAdapter
 import com.example.campusspace.utils.FirebaseDB
@@ -64,50 +65,38 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-// In D:/branch/Campus-Space/app/src/main/java/com/example/campusspace/MainActivity.kt
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-
-        FirebaseAuth.getInstance().signInAnonymously()
-
         geofencingClient = LocationServices.getGeofencingClient(this)
         checkPermissionsAndLoadGeofences()
         setupOverviewCards()
         setupViewPager()
         setupToolbarMenu()
-
+        //loadSeededData()
     }
 
-//    Logout function
-
-        private fun setupToolbarMenu() {
-            binding.toolbar.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.action_logout -> {
-                        showLogoutDialog(this)  // ✅ One line does it all
-                        true
-                    }
-                    else -> false
+    private fun setupToolbarMenu() {
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_logout -> {
+                    showLogoutDialog(this)
+                    true
                 }
+                else -> false
             }
         }
+    }
 
-    //    Function to set the Dashboard Top Cards
     private fun setupOverviewCards() {
         FirebaseDB.instance.collection("places")
             .addSnapshotListener { querySnapshot, exception ->
 
-                // Handle potential errors
                 if (exception != null) {
                     Log.e("MainActivity", "Listen failed.", exception)
                     return@addSnapshotListener
                 }
-
-                // Handle case where there's data
                 if (querySnapshot != null && !querySnapshot.isEmpty) {
                     val places = querySnapshot.toObjects(Place::class.java)
 
@@ -125,7 +114,6 @@ class MainActivity : AppCompatActivity() {
                     val tv_occupancy_totalView = findViewById<TextView>(R.id.tv_occupancy_total)
                     val tv_available_spotsView = findViewById<TextView>(R.id.tv_available_spots)
                     val tv_available_locationsView = findViewById<TextView>(R.id.tv_available_locations)
-
 
                     occupancy_percentageView.text = "$occupancyPercentage%"
                     tv_occupancy_totalView.text = "$totalOccupancy/$totalCapacity people"
@@ -152,7 +140,6 @@ class MainActivity : AppCompatActivity() {
                         val busiest = spaceList.maxByOrNull { it.second }
                         val leastBusy = spaceList.minByOrNull { it.second }
 
-                        // Display in your TextViews
                         val busiestView = findViewById<TextView>(R.id.tv_busiest)
                         val busiestByPercentage = findViewById<TextView>(R.id.tv_busiest_percentage)
                         val best = findViewById<TextView>(R.id.tv_bestOption)
@@ -178,8 +165,6 @@ class MainActivity : AppCompatActivity() {
         val adapter = ViewPagerAdapter(this)
         adapter.addFragment(PlacesListFragment(), "Study Locations")
         adapter.addFragment(CampusMapFragment(), "Campus Map")
-        // You can add the CampusMapFragment here later
-        // adapter.addFragment(CampusMapFragment(), "Campus Map")
 
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -188,7 +173,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun switchToMapTab() {
-        // 1 is the index of your map tab (0 is Study Locations)
         binding.viewPager.currentItem = 1
     }
 
@@ -266,6 +250,14 @@ class MainActivity : AppCompatActivity() {
         geofencingClient.removeGeofences(geofencePendingIntent).run {
             addOnSuccessListener { Log.d("MainActivity", "Geofences removed") }
             addOnFailureListener { e -> Log.e("MainActivity", "Failed to remove geofences: ${e.message}") }
+        }
+    }
+
+    private fun loadSeededData(){
+        val allPlaces = MockData.getPlaces()
+        val db = FirebaseDB.instance
+        for (place in allPlaces) {
+            db.collection("places").document(place.id.toString()).set(place)
         }
     }
 }
