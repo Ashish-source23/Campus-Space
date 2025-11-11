@@ -100,7 +100,7 @@ Some areas get overcrowded while others remain empty.
 
 ### 1. Clone the Repository
 ``bash
-git clone https://github.com/your-username/Campus-Space.git
+git clone https://github.com/Ashish-source23/Campus-Space.git
 cd Campus-Space
 
 ### 2. Open in Android Studio
