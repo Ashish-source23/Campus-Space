@@ -1,0 +1,17 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CampusSpace" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="android:statusBarColor">@color/white_navigation</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <item name="colorOnNavigation">@color/font_grey</item>
+        <item name="colorBackgroundPrimary">@color/white_navigation</item>
+        <item name="colorOnBackground">@color/font_grey</item>
+        <item name="colorSearch">@color/white</item>
+        <item name="colorSearchButton">@color/grey</item>
+    </style>
+
+    <style name="Theme.CampusSpace" parent="Base.Theme.CampusSpace" />
+
+</resources>
