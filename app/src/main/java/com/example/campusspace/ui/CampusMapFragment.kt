@@ -25,13 +25,31 @@ import com.google.android.gms.maps.model.*
 import com.google.firebase.firestore.ListenerRegistration // <-- Keep this
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts // For permission request
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 class CampusMapFragment : Fragment(), OnMapReadyCallback {
     private var _binding: FragmentCampusMapBinding? = null
     private val binding get() = _binding!!
     private lateinit var mapView: MapView
     private var googleMap: GoogleMap? = null
+    private var userLocationMarker: Marker? = null
+    private var userAccuracyCircle: Circle? = null // To track the radius circle
+    private val currentUserName: String = "User"
     private var firestoreListener: ListenerRegistration? = null
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                enableMyLocation()
+            } else {
+                Toast.makeText(requireContext(), "Location permission is required to show your position", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     // --- 3. ADD VIEWMODEL ---
     // Get the *same* Activity-scoped ViewModel
@@ -54,6 +72,9 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCampusMapBinding.inflate(inflater, container, false)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
@@ -80,6 +101,8 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
         googleMap?.setMinZoomPreference(MIN_ZOOM)
         googleMap?.setMaxZoomPreference(MAX_ZOOM)
 
+        enableMyLocation()
+
         val campusLocation = LatLng(30.9686169, 76.473305)
         val cameraPosition = CameraPosition.Builder()
             .target(campusLocation)
@@ -100,6 +123,11 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
             marker.showInfoWindow()
             true
         }
+        // This fixes the "Button not working" issue by manually handling the click
+        googleMap?.setOnMyLocationButtonClickListener {
+            getDeviceLocationAndCenter()
+            true // Return true to consume the event (we handle the move, not the map)
+        }
 
         enableMyLocation()
         fetchAndPopulateMapData()
@@ -107,6 +135,85 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
         // --- 5. ADD THIS ---
         // Start listening for focus requests
         observeViewModelForFocus()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getDeviceLocationAndCenter() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            return
+        }
+
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                val userLatLng = LatLng(location.latitude, location.longitude)
+
+                // 1. GET THE NAME SAFELY
+                val authUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+                val displayName = authUser?.displayName
+
+                // Logic: Use Name -> If null use Email -> If null use "You"
+                val nameToShow = when {
+                    !displayName.isNullOrEmpty() -> displayName
+                    !authUser?.email.isNullOrEmpty() -> authUser?.email?.substringBefore("@") // Use part before @
+                    else -> "You"
+                }
+
+                // 2. CLEAR OLD MARKERS
+                userLocationMarker?.remove()
+                userAccuracyCircle?.remove()
+
+                // 3. ADD RADIUS CIRCLE
+                userAccuracyCircle = googleMap?.addCircle(
+                    CircleOptions()
+                        .center(userLatLng)
+                        .radius(30.0)
+                        .strokeWidth(2f)
+                        .strokeColor(0xFF4285F4.toInt())
+                        .fillColor(0x224285F4.toInt())
+                )
+
+                // 4. ADD DOT MARKER WITH NAME
+                val markerOptions = MarkerOptions()
+                    .position(userLatLng)
+                    .title("$nameToShow is here") // Now guaranteed to have text
+                    .icon(createCustomLocationDot())
+                    .anchor(0.5f, 0.5f)
+                    .zIndex(2.0f)
+
+                userLocationMarker = googleMap?.addMarker(markerOptions)
+
+                // 5. ANIMATE AND SHOW CARD
+                googleMap?.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(userLatLng, 17.5f)
+                )
+                userLocationMarker?.showInfoWindow()
+
+            } else {
+                Toast.makeText(requireContext(), "Waiting for location signal...", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun createCustomLocationDot(): BitmapDescriptor {
+        val diameter = 40 // Size of the dot in pixels (Adjust this to make it smaller/larger)
+        val bitmap = Bitmap.createBitmap(diameter, diameter, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        val paint = android.graphics.Paint()
+
+        // 1. Draw the white border
+        paint.color = android.graphics.Color.WHITE
+        paint.isAntiAlias = true
+        canvas.drawCircle(diameter / 2f, diameter / 2f, diameter / 2f, paint)
+
+        // 2. Draw the inner colored dot (Theme Color)
+        // You can change 0xFF4285F4 to ContextCompat.getColor(requireContext(), R.color.your_theme_color)
+        paint.color = 0xFF4285F4.toInt() // Google Blue
+        val innerRadius = (diameter / 2f) - 4 // 4px border width
+        canvas.drawCircle(diameter / 2f, diameter / 2f, innerRadius, paint)
+
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     // --- 6. ADD THIS NEW FUNCTION ---
@@ -162,6 +269,7 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
         markerToClick?.showInfoWindow()
     }
 
+    @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
         // ... (no changes)
         val map = googleMap ?: return
@@ -174,7 +282,9 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
             map.uiSettings.isMyLocationButtonEnabled = true
         } else {
             Log.d("CampusMapFragment", "Location permission not granted. MyLocation button disabled.")
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
+
     }
 
     // --- 8. THIS FUNCTION IS MODIFIED ---
