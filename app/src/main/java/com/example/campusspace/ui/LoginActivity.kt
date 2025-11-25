@@ -10,6 +10,9 @@ import com.example.campusspace.MainActivity
 import com.example.campusspace.R
 import com.example.campusspace.databinding.LoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -21,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Initialize FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.loginButton.setOnClickListener {
@@ -37,10 +41,42 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
+                        finish()
                     } else {
-                        Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        try {
+                            throw task.exception!!
+                        } catch (e: FirebaseAuthInvalidUserException) {
+                            // This error is thrown when the email does not exist.
+                            Toast.makeText(
+                                this,
+                                "No account found with this email.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } catch (e: FirebaseAuthInvalidCredentialsException) {
+                            // This exception can mean a wrong password OR a badly formatted email.
+                            // We check the error code to be more specific.
+                            if (e.errorCode == "ERROR_INVALID_EMAIL") {
+                                Toast.makeText(
+                                    this,
+                                    "Please enter a valid email address.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Incorrect Email or Password. Please try again.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        } catch (e: Exception) {
+                            // Handle other potential errors
+                            Toast.makeText(this, "Login failed: ${e.message}", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                 }
         }
@@ -49,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
 
         binding.forgotPasswordTextView.setOnClickListener {
             val builder = AlertDialog.Builder(this)
@@ -69,6 +106,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun sendPasswordResetEmail(email: String) {
         firebaseAuth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
@@ -80,14 +119,23 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-
     override fun onStart() {
         super.onStart()
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()
+            redirectToMain()
         }
     }
+
+    private fun redirectToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        // Clear the activity stack to prevent the user from going back to the Welcome screen
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish() // Close WelcomeActivity
+    }
+
 }

@@ -20,12 +20,9 @@ class PlacesListFragment : Fragment() {
 
     private var _binding: FragmentPlacesListBinding? = null
     private val binding get() = _binding!!
-
     private val sharedViewModel: SharedViewModel by activityViewModels()
-
     private lateinit var placesListAdapter: PlacesListAdapter
     private var firestoreListener: ListenerRegistration? = null
-
     private var allPlaces: List<Place> = emptyList()
 
     override fun onCreateView(
@@ -39,10 +36,10 @@ class PlacesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-
         setupSearchListener()
     }
 
+    //Function to set up search bar logic
     private fun setupSearchListener() {
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

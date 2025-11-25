@@ -88,7 +88,6 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
         }
 
         // (Fullscreen listeners, etc.)
-
         return binding.root
     }
 
@@ -150,15 +149,15 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
                 val userLatLng = LatLng(location.latitude, location.longitude)
 
                 // 1. GET THE NAME SAFELY
-                val authUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
-                val displayName = authUser?.displayName
-
-                // Logic: Use Name -> If null use Email -> If null use "You"
-                val nameToShow = when {
-                    !displayName.isNullOrEmpty() -> displayName
-                    !authUser?.email.isNullOrEmpty() -> authUser?.email?.substringBefore("@") // Use part before @
-                    else -> "You"
-                }
+//                val authUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+//                val displayName = authUser?.displayName
+//
+//                // Logic: Use Name -> If null use Email -> If null use "You"
+//                val nameToShow = when {
+//                    !displayName.isNullOrEmpty() -> authUser.displayName
+//                    !authUser?.email.isNullOrEmpty() -> authUser?.email?.substringBefore("@") // Use part before @
+//                    else -> "You"
+//                }
 
                 // 2. CLEAR OLD MARKERS
                 userLocationMarker?.remove()
@@ -177,7 +176,7 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
                 // 4. ADD DOT MARKER WITH NAME
                 val markerOptions = MarkerOptions()
                     .position(userLatLng)
-                    .title("$nameToShow is here") // Now guaranteed to have text
+                    .title("You are here") // Now guaranteed to have text
                     .icon(createCustomLocationDot())
                     .anchor(0.5f, 0.5f)
                     .zIndex(2.0f)
