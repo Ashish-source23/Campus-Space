@@ -1,15 +1,16 @@
 package com.example.campusspace.ui
 
-import android.Manifest // <-- ADD IMPORT
-import android.content.pm.PackageManager // <-- ADD IMPORT
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat // <-- ADD IMPORT
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +18,7 @@ import com.example.campusspace.MainActivity
 import com.example.campusspace.data.Place
 import com.example.campusspace.databinding.FragmentPlacesListBinding
 import com.example.campusspace.utils.FirebaseDB
-import com.google.android.gms.location.FusedLocationProviderClient // <-- ADD IMPORT
-import com.google.android.gms.location.LocationServices // <-- ADD IMPORT
+import com.google.android.gms.location.* // Import all location services
 import com.google.firebase.firestore.ListenerRegistration
 
 class PlacesListFragment : Fragment() {
@@ -30,8 +30,10 @@ class PlacesListFragment : Fragment() {
     private var firestoreListener: ListenerRegistration? = null
     private var allPlaces: List<Place> = emptyList()
 
-    // --- 1. ADD THIS VARIABLE ---
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    // --- 1. ADD THESE VARIABLES ---
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,83 +46,117 @@ class PlacesListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // --- 2. INITIALIZE LOCATION CLIENT ---
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         setupRecyclerView()
         setupSearchListener()
 
-        // --- 3. FETCH LOCATION AND UPDATE ADAPTER ---
-        fetchLocationForList()
+        // --- 2. INITIALIZE LOCATION UPDATES LOGIC ---
+        setupLocationUpdates()
     }
 
-    // --- 4. ADD THIS FUNCTION ---
-    private fun fetchLocationForList() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
+    // --- 3. DEFINE THE LOCATION REQUEST LOGIC ---
+    private fun setupLocationUpdates() {
+        // Create a request for high accuracy updates every 5 seconds
+        locationRequest = LocationRequest.create().apply {
+            interval = 5000 // Update every 5 seconds
+            fastestInterval = 2000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }
 
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                if (location != null) {
-                    // Send the location to the adapter to calculate distances
+        // Define what happens when a new location is found
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult.lastLocation?.let { location ->
+                    // Pass the new live location to the adapter
                     placesListAdapter.updateUserLocation(location)
                 }
             }
         }
     }
 
-    //Function to set up search bar logic
+    // --- 4. START UPDATES WHEN FRAGMENT IS VISIBLE ---
+    override fun onResume() {
+        super.onResume()
+        startLocationUpdates()
+    }
+
+    // --- 5. STOP UPDATES WHEN FRAGMENT IS HIDDEN (SAVE BATTERY) ---
+    override fun onPause() {
+        super.onPause()
+        stopLocationUpdates()
+    }
+
+    private fun startLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+
+            // Request continuous updates
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        }
+    }
+
+    private fun stopLocationUpdates() {
+        // Stop updates to save battery when user isn't looking at the list
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
     private fun setupSearchListener() {
         binding.etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not needed
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Filter the list based on the new text
                 filterList(s.toString())
             }
 
-            override fun afterTextChanged(s: Editable?) {
-                // Not needed
-            }
+            override fun afterTextChanged(s: Editable?) {}
         })
     }
 
     private fun filterList(query: String?) {
         val filteredList = if (query.isNullOrBlank()) {
-            // If query is empty, show the full list
             allPlaces
         } else {
-            // Otherwise, filter the list
             val lowerCaseQuery = query.lowercase().trim()
             allPlaces.filter { place ->
-                // Check if the place name (case-insensitive) contains the query
                 place.name?.lowercase()?.contains(lowerCaseQuery) == true
             }
         }
-        // Submit the new filtered list to the adapter
+
+        // --- PRESERVE EXPANDED STATE (OPTIONAL BUT RECOMMENDED) ---
+        // If Firestore updates, we don't want expanded cards to suddenly close.
+        // We copy the 'isExpanded' state from the old list to the new list.
+        val currentList = placesListAdapter.currentList
+        filteredList.forEach { newPlace ->
+            val oldPlace = currentList.find { it.id == newPlace.id }
+            if (oldPlace != null) {
+                newPlace.isExpanded = oldPlace.isExpanded
+            }
+        }
+
         placesListAdapter.submitList(filteredList)
     }
 
     private fun setupRecyclerView() {
         placesListAdapter = PlacesListAdapter { selectedPlace ->
-            // 1. Tell the ViewModel which place was selected
             sharedViewModel.selectPlace(selectedPlace)
-
-            // 2. Tell MainActivity to switch to the map tab
             (activity as? MainActivity)?.switchToMapTab()
         }
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = placesListAdapter
+            // This prevents the list from "blinking" too much on updates
+            itemAnimator = null
         }
     }
 
-
     override fun onStart() {
         super.onStart()
-        // Start listening for real-time data changes from Firestore
         firestoreListener = FirebaseDB.instance.collection("places")
             .addSnapshotListener { querySnapshot, error ->
                 if (error != null) {
@@ -129,13 +165,9 @@ class PlacesListFragment : Fragment() {
                 }
 
                 if (querySnapshot != null) {
-                    // Convert the Firestore documents to our master list
                     allPlaces = querySnapshot.toObjects(Place::class.java)
-
-                    // Re-apply the current filter to the new data
                     filterList(binding.etSearch.text.toString())
                 } else {
-                    Log.d("PlacesListFragment", "Current data: null")
                     allPlaces = emptyList()
                     placesListAdapter.submitList(allPlaces)
                 }
@@ -144,13 +176,11 @@ class PlacesListFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        // Stop listening for changes to prevent memory leaks and save resources
         firestoreListener?.remove()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Clean up the binding reference to avoid memory leaks
         _binding = null
     }
 }
