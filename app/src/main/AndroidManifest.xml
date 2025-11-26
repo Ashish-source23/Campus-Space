@@ -18,7 +18,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="Your_API_Key" />
 
         <activity
             android:name=".ui.LoginActivity"
@@ -29,11 +29,9 @@
             </intent-filter>
         </activity>
 
-
         <activity
             android:name=".ui.SignUpActivity"
             android:exported="false" />
-
 
         <activity
             android:name=".MainActivity"
@@ -46,6 +44,14 @@
                 <action android:name="com.example.campusspace.ACTION_GEOFENCE_EVENT"/>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.ShareActivity"
+            android:exported="false" />
 
     </application>
 </manifest>

@@ -99,7 +99,7 @@ class PlacesListFragment : Fragment() {
             }
         }
         // Submit the new filtered list to the adapter
-        placesListAdapter.updateData(filteredList)
+        placesListAdapter.submitList(filteredList)
     }
 
     private fun setupRecyclerView() {
@@ -137,7 +137,7 @@ class PlacesListFragment : Fragment() {
                 } else {
                     Log.d("PlacesListFragment", "Current data: null")
                     allPlaces = emptyList()
-                    placesListAdapter.updateData(allPlaces)
+                    placesListAdapter.submitList(allPlaces)
                 }
             }
     }

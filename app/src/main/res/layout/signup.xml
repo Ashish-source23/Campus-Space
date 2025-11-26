@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient1"
+    android:background="@color/white_navigation"
     android:fillViewport="true"
     tools:context=".ui.SignUpActivity">
 
@@ -23,7 +23,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="Create Your Account"
             android:textColor="#0D2A5E"
-            android:textSize="26sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,10 @@
             app:cardBackgroundColor="@android:color/white"
             app:layout_constraintTop_toBottomOf="@id/titleTextView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:strokeWidth="1.5dp"
+            app:strokeColor="?attr/colorPrimary"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,7 +79,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter your full name"
-                        android:inputType="textPersonName|textCapWords" />
+                        android:textColorHint="@color/SuggestionColor"
+                        android:inputType="textPersonName|textCapWords"
+                        android:textColor="@color/black"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -99,7 +105,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Enter your phone number"
-                                    android:inputType="phone" />
+                                    android:inputType="phone"
+                                    android:textColorHint="@color/SuggestionColor"
+                                    android:textColor="@color/black"
+                                    />
                             </com.google.android.material.textfield.TextInputLayout>
 
                             <TextView
@@ -122,7 +131,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="student@iitrpr.ac.in"
-                                    android:inputType="textEmailAddress" />
+                                    android:inputType="textEmailAddress"
+                                    android:textColorHint="@color/SuggestionColor"
+                                    android:textColor="@color/black"
+                                    />
                             </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- ... Other TextViews and TextInputLayouts -->
@@ -140,13 +152,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hintEnabled="false"
-                    app:passwordToggleEnabled="true">
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/SuggestionColor">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/passwordEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Create a password"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/SuggestionColor"
+                        android:textColor="@color/black"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -162,13 +178,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hintEnabled="false"
-                    app:passwordToggleEnabled="true">
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/SuggestionColor">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/confirmPasswordEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Confirm your password"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/SuggestionColor"
+                        android:textColor="@color/black"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

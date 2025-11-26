@@ -2,14 +2,22 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.CampusSpace" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorOnPrimary">@android:color/black</item>
+
         <item name="android:statusBarColor">@color/white_navigation</item>
         <item name="android:windowLightStatusBar">true</item>
 
+
+        <item name="toolbarTitleColor">@color/primaryColorBlack</item>
+        <item name="toolbarSubtitleColor">@color/primaryColorBlack</item>
         <item name="colorOnNavigation">@color/font_grey</item>
         <item name="colorBackgroundPrimary">@color/white_navigation</item>
-        <item name="colorOnBackground">@color/font_grey</item>
+        <item name="colorOnBackground">@color/white</item>
         <item name="colorSearch">@color/white</item>
         <item name="colorSearchButton">@color/grey</item>
+        <item name="textOnSearchButton">@color/blue</item>
+
     </style>
 
     <style name="Theme.CampusSpace" parent="Base.Theme.CampusSpace" />

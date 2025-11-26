@@ -1,6 +1,7 @@
 package com.example.campusspace.ui
 
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -24,10 +25,18 @@ class LoginActivity : AppCompatActivity() {
         binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        val animationDrawable = binding.root.background as AnimationDrawable
+//
+//        animationDrawable.setEnterFadeDuration(1000)
+//        animationDrawable.setExitFadeDuration(2000)
+//
+//        animationDrawable.start()
+
         //Initialize FirebaseAuth
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.loginButton.setOnClickListener {
+
             val email = binding.emailEditText.text.toString().trim()
             val password = binding.passwordEditText.text.toString()
 
@@ -84,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
         binding.signUpTextView.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
 

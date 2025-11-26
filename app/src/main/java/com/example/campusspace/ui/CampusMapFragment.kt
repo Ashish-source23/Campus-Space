@@ -67,7 +67,7 @@ class CampusMapFragment : Fragment(), OnMapReadyCallback {
 
     companion object {
         private const val MIN_ZOOM = 15.5f
-        private const val MAX_ZOOM = 18.0f
+        private const val MAX_ZOOM = 21.0f
     }
 
     override fun onCreateView(

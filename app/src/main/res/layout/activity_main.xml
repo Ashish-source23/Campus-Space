@@ -15,14 +15,18 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/theme_beige"
-            app:elevation="0dp"/>
+            app:elevation="0dp"
+            app:titleTextColor="?attr/toolbarTitleColor"
+            app:subtitleTextColor="?attr/toolbarSubtitleColor"
+            android:background="?attr/colorPrimary"
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -257,6 +261,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer_menu" />          <!-- We will create this for the menu items -->
+        app:menu="@menu/drawer_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

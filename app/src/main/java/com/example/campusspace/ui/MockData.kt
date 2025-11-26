@@ -7,7 +7,7 @@ object MockData {
     fun getPlaces(): List<Place> {
         return listOf(
             //Study and Research
-            Place("1", "Library", PlaceType.LIBRARY, 250, 100, 0, "Building A, Floor 2", 30.967264, 76.473251, 20, listOf("wifi", "quiet", "reading", "computers", "printing" )),
+            Place("1", "Library", PlaceType.LIBRARY, 250, 200, 0, "Building A, Floor 2", 30.967264, 76.473251, 20, listOf("wifi", "quiet", "reading", "computers", "printing" )),
             Place("2", "CS LAB 1", PlaceType.STUDY_ROOM, 45, 10, 0, "S. Ramanujan Block", 30.969029078079142, 76.47553299356396, 5, listOf("wifi", "whiteboard", "projector", "air-conditioning", "computers")),
             Place("3", "CS LAB 2", PlaceType.STUDY_ROOM, 45, 10, 0, "S. Ramanujan Block", 30.969032527851393, 76.47563759971143, 5, listOf("wifi", "whiteboard", "projector", "air-conditioning", "computers")),
             Place("4", "CS 1", PlaceType.STUDY_ROOM, 40, 10, 0, "S. Ramanujan Block", 30.968937659068235, 76.476025849462, 7, listOf("wifi", "whiteboard", "projector", "air-conditioning", "chairs", "tables")),
@@ -20,14 +20,14 @@ object MockData {
 
             //Beverages Location
             Place("11", "Cafeteria", PlaceType.CAFE, 200, 75, 0, "Near Workshop", 30.96616, 76.47138, 25, listOf("wifi", "food stalls", "indoor seating", "air-conditioned")),
-            Place("12", "Bake-o-Mocha CafÃ©", PlaceType.CAFE, 30, 20, 0, "Behind Chemical Block", 30.96820, 76.47085, 6, listOf("wifi", "coffee", "food", "outdoor seating", "ambiance")),
+            Place("12", "Bake-o-Mocha Cafe", PlaceType.CAFE, 30, 20, 0, "Behind Chemical Block", 30.96820, 76.47085, 6, listOf("wifi", "coffee", "food", "outdoor seating", "ambiance")),
             Place("13", "Amul", PlaceType.CAFE, 20, 8, 0, "Behind Annapurna Mess", 30.96672, 76.46825, 10, listOf("dairy products")),
             Place("14", "Maggie Point", PlaceType.CAFE, 20, 5, 0, "In-front of Utility", 30.96793, 76.46933, 10, listOf("casual","open area", "evening snacks")),
             Place("15", "Utility Block", PlaceType.COMMON_AREA, 50, 18, 0, "In-front of Ravi Hostel", 30.96774, 76.47001, 8, listOf("wifi", "stationary", "printing", "saloon", "daily essentials")),
             Place("16", "Annapurna Mess", PlaceType.MESS, 200, 35, 0, "Near Bramhaputra Hostel", 30.96687, 76.46791, 30, listOf("wifi", "mess", "air-conditioned", "food", "vending machine")),
 
             //Sports and Recreation
-            Place("17", "Lawn", PlaceType.COMMON_AREA, 200, 10, 0, "Near Ravi Hostel", 30.96756, 76.47091, 35, listOf("nature", "garden", "outdoor seating")),
+            Place("17", "Lawn", PlaceType.PLAYGROUND, 200, 10, 0, "Near Ravi Hostel", 30.96756, 76.47091, 35, listOf("nature", "garden", "outdoor seating")),
             Place("18", "VolleyBall Court", PlaceType.PLAYGROUND, 30, 5, 0, "Sports Arena", 30.96320, 76.47223, 13, listOf("playing area")),
             Place("19", "Lawn Tennis Court", PlaceType.PLAYGROUND, 10, 2, 0, "Sports Arena", 30.96291, 76.47240, 16, listOf("playing area")),
             Place("20", "Basketball Court", PlaceType.PLAYGROUND, 50, 20, 0, "Sports Arena", 30.96323, 76.47251, 13, listOf("playing area")),

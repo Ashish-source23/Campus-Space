@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
-    android:exitFadeDuration="2000"
-    android:enterFadeDuration="2000">
+    android:oneshot="false">
+    <!-- First frame of the animation -->
+    <item
+        android:drawable="@drawable/gradient1"
+        android:duration="3000" /> <!-- Duration in milliseconds -->
 
-    <item android:drawable="@drawable/gradient1" android:duration="4000" />
-    <item android:drawable="@drawable/gradient2" android:duration="4000" />
+    <!-- Second frame of the animation -->
+    <item
+        android:drawable="@drawable/gradient2"
+        android:duration="3000" />
 </animation-list>

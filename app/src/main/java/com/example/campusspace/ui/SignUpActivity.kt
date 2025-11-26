@@ -3,6 +3,7 @@ package com.example.campusspace.ui
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import com.example.campusspace.R
 import androidx.appcompat.app.AppCompatActivity
 import com.example.campusspace.databinding.SignupBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +29,7 @@ class SignUpActivity : AppCompatActivity() {
             // Create an intent to navigate to the LoginActivity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             // Optional: finish() if you want to close the signup screen when going to login
             finish()
         }
@@ -96,4 +98,10 @@ class SignUpActivity : AppCompatActivity() {
                 }
         }
     } }
+
+    override fun onBackPressed() {
+        super.finish()
+        // Apply the reverse transition when the back button is pressed
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+    }
 }

@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AlertDialog
@@ -35,6 +34,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.example.campusspace.ui.LoginActivity
+import com.example.campusspace.ui.ShareActivity
+import com.example.campusspace.ui.ProfileActivity
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         setupOverviewCards()
         setupViewPager()
         loadUserData()
-        //loadSeededData()
+        loadSeededData()
     }
 
     private fun setupToolbarAndDrawer(){
@@ -119,19 +120,15 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_profile -> {
-                Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show()
-                // Example: Intent to a ProfileActivity
-                // val intent = Intent(this, ProfileActivity::class.java)
-                // startActivity(intent)
-            }
-            R.id.nav_settings -> {
-                Toast.makeText(this, "Settings clicked", Toast.LENGTH_SHORT).show()
+                 val intent = Intent(this, ProfileActivity::class.java)
+                 startActivity(intent)
             }
             R.id.action_logout -> {
                 showLogoutDialog()
             }
             R.id.nav_share -> {
-                Toast.makeText(this, "Share clicked", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, ShareActivity::class.java)
+                startActivity(intent)
             }
         }
         // Close the drawer when an item is tapped
@@ -164,8 +161,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 }
 
                 if (querySnapshot != null && !querySnapshot.isEmpty) {
-                    val places = querySnapshot.toObjects(Place::class.java)
+                    val ALLplaces = querySnapshot.toObjects(Place::class.java)
 
+                    val places = ALLplaces.filter { it.type != com.example.campusspace.data.PlaceType.PLAYGROUND }
                     val totalCapacity = places.sumOf { it.capacity ?: 0 }
                     val totalOccupancy = places.sumOf { it.currentOccupancy ?: 0 }
                     val availableSpots = totalCapacity - totalOccupancy
@@ -241,12 +239,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
     } else true
-//        else PackageManager.PERMISSION_GRANTED
-//        when {
-//            fine == PackageManager.PERMISSION_GRANTED && background == PackageManager.PERMISSION_GRANTED -> loadGeofencesFromFirebase()
-//            fine == PackageManager.PERMISSION_GRANTED -> requestBackgroundLocationPermission()
-//            else -> requestFineLocationPermission()
-//        }
         if (hasFineLocation && hasBackgroundLocation) {
             loadGeofencesFromFirebase()
         } else if (hasFineLocation) {

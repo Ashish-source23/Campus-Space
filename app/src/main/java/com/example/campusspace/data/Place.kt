@@ -14,7 +14,9 @@ data class Place(
     val latitude: Double=0.0,
     val longitude: Double=0.0,
     val radiusMeters: Int?=null,
-    val amenities: List<String>?=null
+    val amenities: List<String>?=null,
+    @JvmField
+var isExpanded: Boolean = false
 )
 
 fun Place() {
@@ -25,7 +27,6 @@ enum class PlaceType(val emoji: String, val displayName: String) {
     COMMON_AREA("🏛️", "Common Area"),
     LAB("🔬", "Lab"),
     CAFE("☕", "Cafe"),
-
     MESS("☕","Mess"),
     PLAYGROUND("🏃","Playground")
 
