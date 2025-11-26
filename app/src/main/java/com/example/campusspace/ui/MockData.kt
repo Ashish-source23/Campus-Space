@@ -8,9 +8,9 @@ object MockData {
         return listOf(
             //Study and Research
             Place("1", "Library", PlaceType.LIBRARY, 250, 100, 0, "Building A, Floor 2", 30.967264, 76.473251, 20, listOf("wifi", "quiet", "reading", "computers", "printing" )),
-            Place("2", "CS LAB 1", PlaceType.STUDY_ROOM, 40, 12, 0, "S. Ramanujan Block", 30.96905, 76.47555, 5, listOf("wifi", "whiteboard", "projector", "air-conditioning", "computers")),
-            Place("3", "CS LAB 2", PlaceType.STUDY_ROOM, 40, 12, 0, "S. Ramanujan Block", 30.96907, 76.47573, 5, listOf("wifi", "whiteboard", "projector", "air-conditioning", "computers")),
-            Place("4", "CS 1", PlaceType.STUDY_ROOM, 40, 12, 0, "S. Ramanujan Block", 30.96892, 76.47605, 5, listOf("wifi", "whiteboard", "projector", "air-conditioning", "chairs", "tables")),
+            Place("2", "CS LAB 1", PlaceType.STUDY_ROOM, 45, 10, 0, "S. Ramanujan Block", 30.969029078079142, 76.47553299356396, 5, listOf("wifi", "whiteboard", "projector", "air-conditioning", "computers")),
+            Place("3", "CS LAB 2", PlaceType.STUDY_ROOM, 45, 10, 0, "S. Ramanujan Block", 30.969032527851393, 76.47563759971143, 5, listOf("wifi", "whiteboard", "projector", "air-conditioning", "computers")),
+            Place("4", "CS 1", PlaceType.STUDY_ROOM, 40, 10, 0, "S. Ramanujan Block", 30.968937659068235, 76.476025849462, 7, listOf("wifi", "whiteboard", "projector", "air-conditioning", "chairs", "tables")),
             Place("5", "Lecture Hall Complex", PlaceType.STUDY_ROOM, 500, 95, 0, "Behind Mechanical Block", 30.96775, 76.47201, 30, listOf("wifi","air-conditioning", "indoor seating", "lecture halls")),
             Place("6", "Super Academic Block", PlaceType.STUDY_ROOM, 400, 15, 0, "Besides Auditorium", 30.96738, 76.47465, 60, listOf("wifi", "labs", "controllers", "specialized equipment" , "Fountain")),
             Place("7", "Ampe4re LAB", PlaceType.LAB, 40, 15, 0, "J.C.Bose Block", 30.96876, 76.47457, 20, listOf("wifi", "coffee", "food", "casual", "outdoor seating")),

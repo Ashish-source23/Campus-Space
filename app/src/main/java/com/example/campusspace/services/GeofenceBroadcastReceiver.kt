@@ -32,6 +32,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
         val triggeringGeofences = geofencingEvent.triggeringGeofences ?: return
         val user = FirebaseAuth.getInstance().currentUser
         val userId = user?.uid ?: "anonymous"
+
         for (geofence in triggeringGeofences) {
             val areaId = geofence.requestId
             when (transitionType) {

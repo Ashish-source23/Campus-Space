@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -53,7 +54,7 @@
                 android:contentDescription="Zoom In"
                 android:src="@drawable/ic_zoom_in" />
 
- </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/map_legend"
@@ -67,8 +68,10 @@
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/map_container" android:layout_width="match_parent"
-            android:layout_height="530dp" tools:context=".ui.CampusMapFragment">
+            android:id="@+id/map_container"
+            android:layout_width="match_parent"
+            android:layout_height="530dp"
+            tools:context=".ui.CampusMapFragment">
 
             <com.example.campusspace.ui.TouchableWrapper
                 android:layout_width="match_parent"
@@ -77,21 +80,34 @@
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/mapView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" /> </com.example.campusspace.ui.TouchableWrapper>
+                    android:layout_height="match_parent" />
+            </com.example.campusspace.ui.TouchableWrapper>
 
-<!--            <ImageButton-->
-<!--                android:id="@+id/btn_exit_fullscreen"-->
-<!--                android:layout_width="48dp"-->
-<!--                android:layout_height="48dp"-->
-<!--                android:layout_gravity="top|end"-->
-<!--                android:layout_margin="8dp"-->
-<!--                android:background="@drawable/shape_circle_translucent" android:contentDescription="Exit Full Screen"-->
-<!--                android:src="@drawable/ic_fullscreen_exit" android:visibility="gone"-->
-<!--                tools:visibility="visible"-->
-<!--            />-->
+            <!-- ADDED THIS BUTTON -->
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnRefreshLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:contentDescription="Refresh Location"
+                android:src="@drawable/ic_location_pin"
+                app:backgroundTint="?attr/colorSurface"
+                app:fabSize="mini"
+                app:tint="?attr/colorPrimary" />
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/btn_exit_fullscreen"-->
+            <!--                android:layout_width="48dp"-->
+            <!--                android:layout_height="48dp"-->
+            <!--                android:layout_gravity="top|end"-->
+            <!--                android:layout_margin="8dp"-->
+            <!--                android:background="@drawable/shape_circle_translucent" android:contentDescription="Exit Full Screen"-->
+            <!--                android:src="@drawable/ic_fullscreen_exit" android:visibility="gone"-->
+            <!--                tools:visibility="visible"-->
+            <!--            />-->
 
         </FrameLayout>
-
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
