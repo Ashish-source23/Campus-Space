@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp"
+    tools:context=".ui.CampusMapFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="0dp">
+
+        <LinearLayout
+            android:id="@+id/map_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:background="?attr/colorOnBackground">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:layout_marginStart="10dp"
+                android:text="Campus Crowd Map"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                app:drawableStartCompat="@drawable/ic_users" />
+
+            <ImageButton
+                android:id="@+id/btn_zoom_out"
+                android:layout_width="46dp"
+                android:layout_height="54dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Zoom Out"
+                android:src="@drawable/ic_zoom_out" />
+
+            <ImageButton
+                android:id="@+id/btn_zoom_in"
+                android:layout_width="46dp"
+                android:layout_height="54dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Zoom In"
+                android:src="@drawable/ic_zoom_in" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/map_legend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="0dp">
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/map_container"
+            android:layout_width="match_parent"
+            android:layout_height="530dp"
+            tools:context=".ui.CampusMapFragment">
+
+            <com.example.campusspace.ui.TouchableWrapper
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </com.example.campusspace.ui.TouchableWrapper>
+
+            <FrameLayout
+                android:id="@+id/loading_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:colorBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:elevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="32dp">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginBottom="24dp"
+                        android:src="@mipmap/ic_launcher"
+                        android:contentDescription="App Logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Campus Space"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                        android:textColor="?attr/colorPrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="32dp"
+                        android:text="Updating Map..."
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:textColorSecondary" />
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminateTint="?attr/colorPrimary" />
+
+                </LinearLayout>
+            </FrameLayout>
+            ```
+        </FrameLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

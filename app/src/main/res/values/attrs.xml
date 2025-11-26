@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="toolbarTitleColor" format="color" />
+    <attr name="toolbarSubtitleColor" format="color" />
+    <attr name="colorBackgroundPrimary" format="color" />
+    <attr name="colorOnBackground" fromat="color" />
+    <attr name="colorSearch" format="color"/>
+    <attr name="colorSearchButton" format="color"/>
+    <attr name="colorOnNavigation" format="color"/>
+
+    //Login and SignUp Page
+    <attr name="colorContainer" format="color"/>
+    <attr name="colorPrimary" format="color"/>
+    <attr name="colorPrimaryBlack" format="color"/>
+
+    //Main Activity
+    <attr name="colorOnTitle" format="color"/>
+    <attr name="colorOnSubtitle" format="color"/>
+
+    //Card
+    <attr name="textOnSearchButton" format="color"/>
+</resources>

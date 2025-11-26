@@ -1,0 +1,50 @@
+# =======================================
+# == Android / Gradle
+# =======================================
+# Built application files
+*.apk
+*.aab
+*.ap_
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Build folders
+/build
+/app/build
+/captures
+
+# Gradle files
+/.gradle/
+/gradlew
+/gradlew.bat
+
+# =======================================
+# == Local & User-specific
+# =======================================
+# Local configuration file (SDK path, API keys - DO NOT SHARE)
+local.properties
+
+# Log files
+*.log
+
+# =======================================
+# == Android Studio / IntelliJ
+# =======================================
+# IDE files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Android Studio Navigation editor files
+.navigation/
+
+# =======================================
+# == OS Files (macOS, Windows)
+# =======================================
+.DS_Store
+Thumbs.db

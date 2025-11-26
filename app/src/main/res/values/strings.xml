@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Campus Space</string>
+    <string name="tagline">Track campus crowd density in real-time</string>
+    <!-- SignIn Page -->
+    <string name="signIn_welcome">Sign in to view campus crowd levels and find the best study spots</string>
+<!--Left Drawer-->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+</resources>
