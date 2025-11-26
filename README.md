@@ -143,7 +143,7 @@ cd Campus-Space
   <img src="screenshots/Welcome.png" alt="Welcome" width="250" style="border-radius: 10px; margin: 10px;"/>
   <img src="screenshots/Home Screen.png" alt="Home Screen" width="250" style="border-radius: 10px; margin: 10px;"/>
   <img src="screenshots/Space Details.png" alt="Space Details" width="250" style="border-radius: 10px; margin: 10px;"/>
-  <img src="screenshots/Interactive_Map.png" alt="Interactive Map" width="250" style="border-radius: 10px; margin: 10px;"/>
+  <img src="screenshots/Interactive Map.png" alt="Interactive Map" width="250" style="border-radius: 10px; margin: 10px;"/>
 </p>
 
 <p align="center">
