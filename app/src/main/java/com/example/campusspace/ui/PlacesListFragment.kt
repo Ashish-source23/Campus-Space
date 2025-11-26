@@ -1,12 +1,15 @@
 package com.example.campusspace.ui
 
+import android.Manifest // <-- ADD IMPORT
+import android.content.pm.PackageManager // <-- ADD IMPORT
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
-import android.text.Editable // <-- 1. ADD IMPORT
-import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat // <-- ADD IMPORT
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +17,8 @@ import com.example.campusspace.MainActivity
 import com.example.campusspace.data.Place
 import com.example.campusspace.databinding.FragmentPlacesListBinding
 import com.example.campusspace.utils.FirebaseDB
+import com.google.android.gms.location.FusedLocationProviderClient // <-- ADD IMPORT
+import com.google.android.gms.location.LocationServices // <-- ADD IMPORT
 import com.google.firebase.firestore.ListenerRegistration
 
 class PlacesListFragment : Fragment() {
@@ -25,6 +30,9 @@ class PlacesListFragment : Fragment() {
     private var firestoreListener: ListenerRegistration? = null
     private var allPlaces: List<Place> = emptyList()
 
+    // --- 1. ADD THIS VARIABLE ---
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,8 +43,29 @@ class PlacesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // --- 2. INITIALIZE LOCATION CLIENT ---
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         setupRecyclerView()
         setupSearchListener()
+
+        // --- 3. FETCH LOCATION AND UPDATE ADAPTER ---
+        fetchLocationForList()
+    }
+
+    // --- 4. ADD THIS FUNCTION ---
+    private fun fetchLocationForList() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    // Send the location to the adapter to calculate distances
+                    placesListAdapter.updateUserLocation(location)
+                }
+            }
+        }
     }
 
     //Function to set up search bar logic
@@ -75,13 +104,11 @@ class PlacesListFragment : Fragment() {
 
     private fun setupRecyclerView() {
         placesListAdapter = PlacesListAdapter { selectedPlace ->
-            // --- MODIFIED BLOCK ---
             // 1. Tell the ViewModel which place was selected
             sharedViewModel.selectPlace(selectedPlace)
 
             // 2. Tell MainActivity to switch to the map tab
             (activity as? MainActivity)?.switchToMapTab()
-            // --- END OF MODIFICATION ---
         }
 
         binding.recyclerView.apply {
@@ -102,17 +129,13 @@ class PlacesListFragment : Fragment() {
                 }
 
                 if (querySnapshot != null) {
-                    // 7. MODIFY THIS BLOCK
                     // Convert the Firestore documents to our master list
                     allPlaces = querySnapshot.toObjects(Place::class.java)
 
                     // Re-apply the current filter to the new data
-                    // This ensures the list stays filtered even when data updates
                     filterList(binding.etSearch.text.toString())
-                    // --- END OF MODIFICATION ---
                 } else {
                     Log.d("PlacesListFragment", "Current data: null")
-                    // 8. CLEAR THE LIST IF DATA IS NULL
                     allPlaces = emptyList()
                     placesListAdapter.updateData(allPlaces)
                 }

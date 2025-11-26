@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="0dp"
-        >
+        android:layout_marginTop="0dp">
 
         <LinearLayout
             android:id="@+id/map_header"
@@ -25,8 +23,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="10dp"
-            android:background="?attr/colorOnBackground"
-            >
+            android:background="?attr/colorOnBackground">
 
             <TextView
                 android:layout_width="0dp"
@@ -83,30 +80,56 @@
                     android:layout_height="match_parent" />
             </com.example.campusspace.ui.TouchableWrapper>
 
-            <!-- ADDED THIS BUTTON -->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnRefreshLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:contentDescription="Refresh Location"
-                android:src="@drawable/ic_location_pin"
-                app:backgroundTint="?attr/colorSurface"
-                app:fabSize="mini"
-                app:tint="?attr/colorPrimary" />
+            <FrameLayout
+                android:id="@+id/loading_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:colorBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:elevation="4dp">
 
-            <!--            <ImageButton-->
-            <!--                android:id="@+id/btn_exit_fullscreen"-->
-            <!--                android:layout_width="48dp"-->
-            <!--                android:layout_height="48dp"-->
-            <!--                android:layout_gravity="top|end"-->
-            <!--                android:layout_margin="8dp"-->
-            <!--                android:background="@drawable/shape_circle_translucent" android:contentDescription="Exit Full Screen"-->
-            <!--                android:src="@drawable/ic_fullscreen_exit" android:visibility="gone"-->
-            <!--                tools:visibility="visible"-->
-            <!--            />-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="32dp">
 
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginBottom="24dp"
+                        android:src="@mipmap/ic_launcher"
+                        android:contentDescription="App Logo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Campus Space"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+                        android:textColor="?attr/colorPrimary"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="32dp"
+                        android:text="Updating Map..."
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?android:textColorSecondary" />
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminateTint="?attr/colorPrimary" />
+
+                </LinearLayout>
+            </FrameLayout>
+            ```
         </FrameLayout>
 
     </LinearLayout>
