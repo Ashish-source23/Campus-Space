@@ -40,6 +40,9 @@ android {
 }
 
 dependencies {
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+
     //Firebase Bill of Materials
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
 

@@ -19,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Profile"
-            app:navigationIcon="@drawable/arrow_left" /> <!-- Back arrow -->
+            app:elevation="2dp"
+            app:navigationIcon="@drawable/arrow_left"
+            android:background="@color/white"/> <!-- Back arrow -->
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -53,7 +55,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="25dp">
+            android:paddingVertical="40dp"
+            android:paddingHorizontal="25dp"
+            android:background="@color/white">
 
             <!-- Full Name -->
             <TextView

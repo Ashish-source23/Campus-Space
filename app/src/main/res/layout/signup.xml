@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter your full name"
-                        android:textColorHint="@color/SuggestionColor"
+                        android:textColorHint="@color/black"
                         android:inputType="textPersonName|textCapWords"
                         android:textColor="@color/black"
                         />
@@ -106,7 +106,7 @@
                                     android:layout_height="wrap_content"
                                     android:hint="Enter your phone number"
                                     android:inputType="phone"
-                                    android:textColorHint="@color/SuggestionColor"
+                                    android:textColorHint="@color/black"
                                     android:textColor="@color/black"
                                     />
                             </com.google.android.material.textfield.TextInputLayout>
@@ -132,7 +132,7 @@
                                     android:layout_height="wrap_content"
                                     android:hint="student@iitrpr.ac.in"
                                     android:inputType="textEmailAddress"
-                                    android:textColorHint="@color/SuggestionColor"
+                                    android:textColorHint="@color/black"
                                     android:textColor="@color/black"
                                     />
                             </com.google.android.material.textfield.TextInputLayout>
@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Create a password"
                         android:inputType="textPassword"
-                        android:textColorHint="@color/SuggestionColor"
+                        android:textColorHint="@color/black"
                         android:textColor="@color/black"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -186,7 +186,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Confirm your password"
                         android:inputType="textPassword"
-                        android:textColorHint="@color/SuggestionColor"
+                        android:textColorHint="@color/black"
                         android:textColor="@color/black"
                         />
                 </com.google.android.material.textfield.TextInputLayout>

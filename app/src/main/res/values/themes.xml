@@ -5,21 +5,36 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorOnPrimary">@android:color/black</item>
 
-        <item name="android:statusBarColor">@color/white_navigation</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/black_night</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/black_night</item>
 
 
-        <item name="toolbarTitleColor">@color/primaryColorBlack</item>
-        <item name="toolbarSubtitleColor">@color/primaryColorBlack</item>
+        <item name="toolbarTitleColor">@color/white_navigation</item>
+        <item name="toolbarSubtitleColor">@color/white_navigation</item>
         <item name="colorOnNavigation">@color/font_grey</item>
         <item name="colorBackgroundPrimary">@color/white_navigation</item>
         <item name="colorOnBackground">@color/white</item>
         <item name="colorSearch">@color/white</item>
         <item name="colorSearchButton">@color/grey</item>
-        <item name="textOnSearchButton">@color/blue</item>
+        <item name="textOnSearchButton">@color/white_navigation</item>
 
     </style>
 
     <style name="Theme.CampusSpace" parent="Base.Theme.CampusSpace" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background -->
+        <item name="windowSplashScreenBackground">@color/white_navigation</item>
+
+        <!-- Set the icon to be displayed. This should be your app's launcher icon. -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+
+        <!-- Set the animation for the icon. -->
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+
+        <!-- Set the theme to transition to after the splash screen is finished. -->
+        <item name="postSplashScreenTheme">@style/Base.Theme.CampusSpace</item>
+    </style>
 
 </resources>

@@ -28,6 +28,7 @@ class PlacesListAdapter(
                 if (position != RecyclerView.NO_POSITION) {
                     val place = getItem(position)
                     place.isExpanded = !place.isExpanded
+
                     // Notify the adapter that this specific item has changed.
                     notifyItemChanged(position)
                 }

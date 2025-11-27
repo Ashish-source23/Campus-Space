@@ -18,11 +18,12 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="Your_API_Key" />
+            android:value="YOUR_API_KEY" />
 
         <activity
             android:name=".ui.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,14 +37,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <receiver
-            android:name=".services.GeofenceBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.example.campusspace.ACTION_GEOFENCE_EVENT"/>
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".ui.ProfileActivity"
@@ -52,6 +45,16 @@
         <activity
             android:name=".ui.ShareActivity"
             android:exported="false" />
+
+
+        <receiver
+            android:name=".services.GeofenceBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.campusspace.ACTION_GEOFENCE_EVENT"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 </manifest>

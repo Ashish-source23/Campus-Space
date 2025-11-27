@@ -63,7 +63,7 @@
             app:cardElevation="4dp"
             app:cardBackgroundColor="@android:color/white"
             app:strokeWidth="1.5dp"
-            app:strokeColor="?attr/colorPrimary"
+            app:strokeColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/taglineTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:hint="Email"
-                    android:textColorHint="@color/SuggestionColor"
+                    android:textColorHint="@color/black"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -117,9 +117,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="Password"
-                    android:textColorHint="@color/SuggestionColor"
+                    android:textColorHint="@color/black"
                     app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/SuggestionColor"
+                    app:passwordToggleTint="@color/black"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
